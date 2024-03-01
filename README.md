@@ -77,13 +77,36 @@ By opening a pull request, you agree to the conditions of the [Contributor Licen
 
 # Development
 
-## Running
+## Running --Windows guid
 
-Before running Wexond, please ensure you have **latest** [`Node.js`](https://nodejs.org/en/) and [`Yarn`](https://classic.yarnpkg.com/en/docs/install/#windows-stable) installed on your machine.
+make sure you have nvm installed which you can get [`here`](https://github.com/nvm-sh/nvm)
 
-### Windows
+after installing nvm run cmd as admin in the system3d directory
+
+then install node.js version 18.7.0 using the nvm install command like this
+
+```bash
+$ nvm install 18.7.0
+```
+after the install is complete, set the node.js version you just downloaded as your defalt in use version by running this command
+
+```bash
+$ nvm use 18.7.0
+```
+
+and make sure you have the latest version of [`Yarn`](https://classic.yarnpkg.com/en/docs/install/#windows-stable) installed on your machine.
+
+### Building Wexond for windows
+
+Minimum Windows OS supported
++ windows 8
++ Windows8.1
++ Windows 10
++ Windows 11 (Recommended for best compatibility)
 
 Make sure you have build tools installed. You can install them by running this command as **administrator**:
+
+make sure that you are running the command to install windows build tools as admin
 
 ```bash
 $ npm i -g windows-build-tools
@@ -95,14 +118,21 @@ $ yarn rebuild # Rebuild native modules using Electron headers.
 $ yarn dev # Run Wexond in development mode
 ```
 
+i do not have any access to the yarn building commands for linux or mac os
+
 ### More commands
 
 ```bash
 $ yarn compile-win32 # Package Wexond for Windows
-$ yarn compile-linux # Package Wexond for Linux
-$ yarn compile-darwin # Package Wexond for macOS
 $ yarn lint # Runs linter
 $ yarn lint-fix # Runs linter and automatically applies fixes
+```
+
+as of now i do not have any compile processes for linux or mac os. because im a windows user, i am sure that it will work but here are the required commands for compiling wexond for linux and mac os but all i know is that you use these commands to compile the application after the building and packing process whenever you made your changes
+
+```bash
+$ yarn compile-linux # Package Wexond for Linux
+$ yarn compile-darwin # Package Wexond for macOS
 ```
 
 More commands can be found in [`package.json`](package.json).
@@ -113,6 +143,6 @@ Guides and the API reference are located in [`docs`](docs) directory.
 
 # License
 
-Usage of this project code and assets is disallowed.
+This Project Uses a MIT License, which is free.
 
 By sending a Pull Request, you agree that your code may be relicensed or sublicensed.
