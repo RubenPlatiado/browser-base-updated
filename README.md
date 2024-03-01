@@ -115,6 +115,7 @@ $ npm i -g windows-build-tools
 ```bash
 $ yarn install # Install needed depedencies.
 $ yarn run build  # build native modules using Electron headers.
+$ yarn run rebuild # this command rebuilds the headers using yarn
 $ yarn run start # Starts the Wexond App
 ```
 
