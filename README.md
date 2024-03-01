@@ -71,16 +71,14 @@ UI compact variant:
 ![image](https://user-images.githubusercontent.com/11065386/81024252-2ddc0a80-8e73-11ea-9f2f-6c9a4a175c60.png)
 
 # Downloads
-- [Stable and beta versions](https://github.com/wexond/desktop/releases)
-- [Nightlies](https://github.com/wexond/desktop-nightly/releases)
+- [Stable and beta versions](https://github.com/IroniumStudios/browser-base-updated/releases)
+- [Nightlies](https://github.com/IroniumStudios/browser-base-updated/releases)
 
 # [Roadmap](https://github.com/wexond/wexond/projects)
 
 # Contributing
 
-If you have found any bugs or just want to see some new features in Wexond, feel free to open an issue. Every suggestion is very valuable for us, as they help us improve the browsing experience. Also, please don't hesitate to open a pull request. This is really important to us and for the further development of this project.
-
-By opening a pull request, you agree to the conditions of the [Contributor License Agreement](cla.md).
+if you want to be added as a part of the github repo please email me at cleverdamontoutube@gmail.com
 
 # Development
 
