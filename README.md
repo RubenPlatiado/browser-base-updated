@@ -1,7 +1,5 @@
 <p align="center">
-
 ![icon](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/3a692a82-ab9b-4103-8d81-e838f430faea)
-  
 </p>
 
 <div align="center">
