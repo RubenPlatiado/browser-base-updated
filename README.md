@@ -1,11 +1,12 @@
+
+![icon](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/3a692a82-ab9b-4103-8d81-e838f430faea)
+
 <p align="center">
   
 </p>
 
 <div align="center">
   <h1>Wexond Browser Base</h1>
-
-![icon](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/3a692a82-ab9b-4103-8d81-e838f430faea)
 
 Wexond Base is a modern web browser, built on top of modern web technologies such as `Electron` and `React`, that can also be used as a framework to create a custom web browser (see the [License](#license) section).
 
