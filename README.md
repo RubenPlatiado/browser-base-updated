@@ -52,6 +52,13 @@ Compiling and editing Chromium directly may be challenging and time consuming, s
 - Omnibox with autocomplete algorithm similar to Chromium
 - State of the art tab system
 
+## To Do List
+
+ + update the node.js version to a newer version
+ + improve optimization while building
+ + improve browsing performance
+ + add the zoom feature
+
 # Screenshots
 
 ![image](https://user-images.githubusercontent.com/11065386/81024159-d9388f80-8e72-11ea-85e7-6c30e3b66554.png)
