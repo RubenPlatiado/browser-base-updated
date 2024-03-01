@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://wexond.net"><img src="static/icons/icon.png" width="256"></a>
+  ![icon](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/2cbecfa6-c167-4b15-b457-b843eee10d6e)
 </p>
 
 <div align="center">
