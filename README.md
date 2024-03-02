@@ -76,11 +76,7 @@ UI compact variant:
 
 ### Instructions for setting up your build environment for windows
 
-First make sure you have the 29.1.0 version of electron installed, you can do so by running this command
-
-```bash
-npm install electron@29.1.0
-```
+make sure you have the 29.1.0 version of electron installed, you can do so by running this command
 
 + Download nvm (Node Version Manegar) from [`here`](https://github.com/coreybutler/nvm-windows)\
   
@@ -89,10 +85,15 @@ npm install electron@29.1.0
 ```bash
 nvm install 21.6.2 # this installed the compatible version of node.js for this project
 ```
+
 after installing the correct version of node.js we want the nvm to use this version as its main defalt version slot, you can do this by running
 
 ```bash
 nvm use 21.6.2 # sets the version you specified as defalt
+```
+
+```bash
+npm install electron@29.1.0
 ```
 
 + Next up is installing yarn, which you can find from [`here`](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
