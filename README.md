@@ -74,9 +74,9 @@ UI compact variant:
 + improve browsing performance
 + add the zoom feature
 
-### Instructions for windows
+### Instructions for setting up your build environment for windows
 
-First make sure you have the 29.1.0 version of electron installed, you can do  so by running this command
+First make sure you have the 29.1.0 version of electron installed, you can do so by running this command
 
 ```bash
 npm install electron@29.1.0
