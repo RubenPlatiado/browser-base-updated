@@ -69,41 +69,57 @@ UI compact variant:
 
 # [Roadmap](https://github.com/wexond/wexond/projects)
 
-# Contributing
+### Instructions for windows
 
-If you have found any bugs or just want to see some new features in Wexond, feel free to open an issue. Every suggestion is very valuable for us, as they help us improve the browsing experience. Also, please don't hesitate to open a pull request. This is really important to us and for the further development of this project.
+First make sure you have the 29.1.0 version of electron installed, you can do  so by running this command
 
-By opening a pull request, you agree to the conditions of the [Contributor License Agreement](cla.md).
+```bash
+npm install electron@29.1.0
+```
 
-# Development
++ Download nvm (Node Version Manegar) from [`here`](https://github.com/coreybutler/nvm-windows)\
+  
++ after installing NVM Run your Command Prompt as Admin then type the following command
+  
+```bash
+nvm install 21.6.2 # this installed the compatible version of node.js for this project
+```
+after installing the correct version of node.js we want the nvm to use this version as its main defalt version slot, you can do this by running
 
-## Running
+```bash
+nvm use 21.6.2 # sets the version you specified as defalt
+```
 
-Before running Wexond, please ensure you have **latest** [`Node.js`](https://nodejs.org/en/) and [`Yarn`](https://classic.yarnpkg.com/en/docs/install/#windows-stable) installed on your machine.
-
-### Windows
++ Next up is installing yarn, which you can find from [`here`](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
 
 Make sure you have build tools installed. You can install them by running this command as **administrator**:
 
-```bash
-$ npm i -g windows-build-tools
-```
++ if you need to install windows build tools the command is here just in case but in reality newer versionf of node.js have windows build tools built in, this command is here just in case the project pulls from the native install, which happens sometimes
 
 ```bash
-$ yarn # Install needed depedencies.
-$ yarn rebuild # Rebuild native modules using Electron headers.
-$ yarn dev # Run Wexond in development mode
+npm i -g windows-build-tools
 ```
 
-### More commands
+# Building and Running Commands
 
 ```bash
-$ yarn compile-win32 # Package Wexond for Windows
-$ yarn compile-linux # Package Wexond for Linux
-$ yarn compile-darwin # Package Wexond for macOS
-$ yarn lint # Runs linter
-$ yarn lint-fix # Runs linter and automatically applies fixes
+ yarn install # Install needed depedencies.
+ yarn run build # Builds native modules using Electron headers.
+ yarn run rebuild # Rebuilds native modules using Electron headers.
+ yarn run start # Starts the Wexond App
 ```
+
+### Compiling Commands for Windows
+
+```bash
+ yarn compile-win32 # Package Wexond for Windows
+ yarn lint # Runs linter
+ yarn lint-fix # Runs linter and automatically applies fixes
+```
+
+# Note
++ i am currently working on implamenting steps for linux and mac os users, as of now i am sorry
+  Reason being is because i only have a windows system and am working on finding proper instructions
 
 More commands can be found in [`package.json`](package.json).
 
@@ -113,6 +129,4 @@ Guides and the API reference are located in [`docs`](docs) directory.
 
 # License
 
-Usage of this project code and assets is disallowed.
-
-By sending a Pull Request, you agree that your code may be relicensed or sublicensed.
+This Project Uses a MIT License, Which is free.
