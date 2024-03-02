@@ -22,9 +22,15 @@
 - Add the zoom feature
 
 # Screenshots
+![Screenshot 2024-03-01 192006](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/1457a26c-a693-4d21-9f4b-136e1ee266bf)
+![Screenshot 2024-03-01 192621](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/535a1a46-004e-4081-b2f7-8753a4f2f20e)
 
-UI compact variant:
-![image](https://user-images.githubusercontent.com/11065386/81024252-2ddc0a80-8e73-11ea-9f2f-6c9a4a175c60.png)
+ # Compact Version
+ 
+![Screenshot 2024-03-01 192714](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/1393750a-f8ea-4511-96c4-273d8198d040)
+
+![Uploading Screenshot 2024-03-01 192714.png…]()
+
 
 # Downloads
 
@@ -36,8 +42,6 @@ UI compact variant:
 # Contributing
 
 If you want to be added as a part of the GitHub repo, please email me at cleverdamontoutube@gmail.com. If you have found any bugs or just want to see some new features in Wexond, feel free to open an issue. Every suggestion is very valuable for us, as they help us improve the browsing experience. Also, please don't hesitate to open a pull request. This is really important to us and for the further development of this project.
-
-By opening a pull request, you agree to the conditions of the [Contributor License Agreement](cla.md).
 
 # Development
 
