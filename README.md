@@ -114,7 +114,7 @@ npm i -g windows-build-tools
  yarn run start # Starts the Wexond App
 ```
 
-### Compiling Commands for Windows
+### Compiling and yarn lint Commands for Windows
 
 ```bash
  yarn compile-win32 # Package Wexond for Windows
