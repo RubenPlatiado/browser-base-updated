@@ -64,10 +64,15 @@ UI compact variant:
 ![image](https://user-images.githubusercontent.com/11065386/81024252-2ddc0a80-8e73-11ea-9f2f-6c9a4a175c60.png)
 
 # Downloads
-- [Stable and beta versions](https://github.com/wexond/desktop/releases)
-- [Nightlies](https://github.com/wexond/desktop-nightly/releases)
+- [Stable and beta versions](https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.0.1)
+- [Nightlies](https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.0.1)
 
-# [Roadmap](https://github.com/wexond/wexond/projects)
+# To Do List
+
++ update the node.js version to a newer version (Complete)
++ improve optimization while building
++ improve browsing performance
++ add the zoom feature
 
 ### Instructions for windows
 
