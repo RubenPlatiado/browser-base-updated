@@ -13,14 +13,13 @@ import {
 import { parseCrx } from '~/utils/crx';
 import { pathExists } from '~/utils/files';
 import { extractZip } from '~/utils/zip';
-import { extensions, _setFallbackSession } from 'electron-extensions';
+import { extensions } from 'electron-extensions';
 import { requestPermission } from './dialogs/permissions';
 import * as rimraf from 'rimraf';
 import { promisify } from 'util';
 
 const rf = promisify(rimraf);
 
-// TODO: sessions should be separate.  This structure actually doesn't make sense.
 export class SessionsService {
   public view = session.fromPartition('persist:view');
   public viewIncognito = session.fromPartition('view_incognito');
@@ -50,14 +49,6 @@ export class SessionsService {
         return this.extensions;
       });
     }
-
-    /*
-    // TODO:
-    ipcMain.handle(`inspect-extension`, (e, incognito, id) => {
-      const context = incognito ? this.extensionsIncognito : this.extensions;
-      context.extensions[id].backgroundPage.webContents.openDevTools();
-    });
-    */
 
     this.view.setPermissionRequestHandler(
       async (webContents, permission, callback, details) => {
@@ -197,7 +188,6 @@ export class SessionsService {
       return downloads;
     });
 
-    // TODO(sentialx): clean up the download listeners
     this.view.on('will-download', (event, item, webContents) => {
       const fileName = item.getFilename();
       const id = makeId(32);
@@ -393,20 +383,12 @@ export class SessionsService {
     });
   }
 
-  public unloadIncognitoExtensions() {
-    /*
-    TODO(sentialx): unload incognito extensions
-    this.incognitoExtensionsLoaded = false;
-    */
-  }
+  public unloadIncognitoExtensions() {}
 
-  // Loading extensions in an off the record BrowserContext is not supported.
   public async loadExtensions() {
-    if (!process.env.ENABLE_EXTENSIONS) return;
+    if (!process.env.ENABLE_EXTENSIONS || this.extensionsLoaded) return;
 
     const context = this.view;
-
-    if (this.extensionsLoaded) return;
 
     const extensionsPath = getPath('extensions');
     const dirs = await promises.readdir(extensionsPath);
@@ -425,10 +407,6 @@ export class SessionsService {
         console.error(e);
       }
     }
-
-    /*if (session === 'incognito') {
-      this.incognitoExtensionsLoaded = true;
-    }*/
 
     this.extensionsLoaded = true;
   }

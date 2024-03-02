@@ -135,7 +135,7 @@ export const StyledTitle = styled.div`
 export const StyledIcon = styled.div`
   height: 16px;
   min-width: 16px;
-  transition: 0.2s opacity, 0.2s min-width;
+  transition: 0.0s opacity, 0.2s min-width;
   ${centerIcon()};
   ${({ isIconSet }: { isIconSet: boolean }) => css`
     min-width: ${isIconSet ? 0 : 16},

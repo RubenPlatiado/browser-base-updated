@@ -21,12 +21,19 @@ const mainConfig = getConfig({
           to: 'preload.js',
           async transform(fileContent) {
             const { code } = await terser.minify(fileContent.toString());
-            return code.toString();
+            return code;
           },
         },
       ],
     }),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: 'async',
+      minSize: 20000,
+      maxSize: 244000,
+    },
+  },
 });
 
 const preloadConfig = getConfig({
@@ -36,7 +43,13 @@ const preloadConfig = getConfig({
   entry: {
     'view-preload': './src/preloads/view-preload',
   },
-  plugins: [],
+  optimization: {
+    splitChunks: {
+      chunks: 'async',
+      minSize: 20000,
+      maxSize: 244000,
+    },
+  },
 });
 
 if (process.env.ENABLE_EXTENSIONS) {
