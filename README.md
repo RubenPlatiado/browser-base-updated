@@ -55,3 +55,5 @@ $ yarn dev # Run Wexond in development mode
 i do not have any access to the yarn building commands for linux or mac os
 @ -152,4 +146,4 @@ Guides and the API reference are located in [`docs`](docs) directory.
 This Project Uses a MIT License, which is free.
+
+By sending a Pull Request, you agree that your code may be relicensed or sublicensed.
