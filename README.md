@@ -54,7 +54,7 @@ Compiling and editing Chromium directly may be challenging and time consuming, s
 
 # Screenshots
 
-![Screenshot 2024-03-02 182023](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/a559db62-b518-487b-a0cb-aab181e515eb)
+![Screenshot 2024-03-02 182023](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/5311a01f-8fe2-45cd-b770-15d9515816fd)
 
 UI normal variant:
 
