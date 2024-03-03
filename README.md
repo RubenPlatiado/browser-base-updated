@@ -61,8 +61,11 @@ UI normal variant:
 ![Screenshot 2024-03-02 182618](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/1d0e81bb-2bfb-42f2-b576-e2359fc1f076)
 
 UI compact variant:
-![image](https://user-images.githubusercontent.com/11065386/81024222-13099600-8e73-11ea-9fc9-3c63a034403d.png)
-![image](https://user-images.githubusercontent.com/11065386/81024252-2ddc0a80-8e73-11ea-9f2f-6c9a4a175c60.png)
+
+![Screenshot 2024-03-02 182544](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/dab7707e-1b37-4183-95bb-172027b50f73)
+
+![Screenshot 2024-03-02 182544](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/38092ab3-1081-4f20-bd26-a9ebd84bc342)
+
 
 # Downloads
 - [Stable and beta versions](https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.0.1)
