@@ -30,6 +30,11 @@ const appConfig = getConfig(getBaseConfig('app'), {
         new ReactRefreshWebpackPlugin(),
       ]
     : [],
+  
+  performance: {
+    maxEntrypointSize: Infinity,
+    maxAssetSize: Infinity,
+  },
 });
 
 const extPopupConfig = getConfig({
