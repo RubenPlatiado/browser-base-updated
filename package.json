@@ -12,12 +12,12 @@
     "mobx",
     "styled-components"
   ],
-  "homepage": "https://github.com/IroniumStudios/browser-base-updated",
+  "homepage": "https://github.com/wexond/wexond#readme",
   "main": "build/main.bundle.js",
   "author": "Damon Smith <cleverdamontoutube@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IroniumStudios/browser-base-updated/wexond.git"
+    "url": "git+https://github.com/wexond/wexond.git"
   },
   "bugs": {
     "url": "https://github.com/wexond/wexond/issues"
