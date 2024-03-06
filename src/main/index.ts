@@ -2,6 +2,9 @@ import { ipcMain, app, webContents } from 'electron';
 import { setIpcMain } from '@wexond/rpc-electron';
 setIpcMain(ipcMain);
 
+// Disable hardware acceleration
+app.disableHardwareAcceleration();
+
 require('@electron/remote/main').initialize();
 
 if (process.env.NODE_ENV === 'development') {
@@ -70,10 +73,18 @@ ipcMain.handle(
   },
 );
 
-// We need to prevent extension background pages from being garbage collected.
+// Prevent extension background pages from being garbage collected
 const backgroundPages: Electron.WebContents[] = [];
 
 app.on('web-contents-created', (e, webContents) => {
-  if (webContents.getType() === 'backgroundPage')
+  if (webContents.getType() === 'backgroundPage') {
     backgroundPages.push(webContents);
+
+    // Limit the number of stored background pages if needed
+    if (backgroundPages.length > MAX_BACKGROUND_PAGES) {
+      // Remove the oldest background page from the array
+      const removedPage = backgroundPages.shift();
+      // Clean up resources related to the removed page if necessary
+    }
+  }
 });

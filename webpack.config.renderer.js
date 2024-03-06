@@ -22,6 +22,7 @@ const appConfig = getConfig(getBaseConfig('app'), {
     hot: true,
     inline: true,
     disableHostCheck: true,
+    allowedHosts: "all" // Added allowedHosts configuration
   },
 
   plugins: dev
@@ -69,7 +70,7 @@ if (process.env.ENABLE_EXTENSIONS) {
   ];
   extPopupConfig.plugins.push(
     new HtmlWebpackPlugin({
-      title: 'Wexond',
+      title: 'Wexond', // Updated title to "Wexond"
       template: 'static/pages/extension-popup.html',
       filename: `extension-popup.html`,
       chunks: [`vendor.app`, 'extension-popup'],

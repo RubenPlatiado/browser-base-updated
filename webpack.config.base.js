@@ -4,8 +4,7 @@ const { writeFileSync, readFileSync, existsSync } = require('fs');
 const { merge } = require('webpack-merge');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components')
-  .default;
+const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
@@ -64,14 +63,13 @@ const config = {
             loader: 'ts-loader',
             options: {
               experimentalWatchApi: dev,
-              transpileOnly: true, // |dev| to throw CI when a ts error occurs
+              transpileOnly: true,
               getCustomTransformers: () => ({
                 before: [styledComponentsTransformer],
               }),
             },
           },
         ],
-
         include: INCLUDE,
       },
     ],

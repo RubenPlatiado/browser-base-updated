@@ -1,7 +1,7 @@
 {
   "name": "wexond",
   "license": "MIT",
-  "version": "7.0.5-nightly.2",
+  "version": "7.0.7-nightly.2",
   "sideEffects": false,
   "description": "Extensible, fast and innovative web browser with material UI.",
   "keywords": [
@@ -12,12 +12,12 @@
     "mobx",
     "styled-components"
   ],
-  "homepage": "https://github.com/wexond/wexond#readme",
+  "homepage": "https://github.com/IroniumStudios/browser-base-updated",
   "main": "build/main.bundle.js",
-  "author": "Eryk Rakowski <sentialx@gmail.com>",
+  "author": "Damon Smith <cleverdamontoutube@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wexond/wexond.git"
+    "url": "git+https://github.com/IroniumStudios/browser-base-updated/wexond.git"
   },
   "bugs": {
     "url": "https://github.com/wexond/wexond/issues"
@@ -61,6 +61,7 @@
     "animejs": "^3.2.1",
     "awesome-node-loader": "^1.1.1",
     "babel-loader": "^8.2.2",
+    "compression-webpack-plugin": "^11.1.0",
     "concurrently": "^7.3.0",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "7.0.3",
@@ -82,7 +83,7 @@
     "mobx-react-lite": "3.2.0",
     "nedb": "1.8.0",
     "node-bookmarks-parser": "^2.0.0",
-    "node-fetch": "^3.2.10",
+    "node-fetch": "^3.3.2",
     "prettier": "2.7.1",
     "pretty-bytes": "6.0.0",
     "react": "17.0.2",
@@ -91,18 +92,18 @@
     "react-windows-controls": "1.1.1",
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.19",
-    "styled-components": "^5.3.5",
+    "styled-components": "^6.1.8",
     "terser": "^5.7.0",
     "terser-webpack-plugin": "^5.1.4",
     "ts-loader": "^9.2.3",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
-    "typescript": "^4.3.4",
+    "typescript": "^5.3.3",
     "typescript-plugin-styled-components": "^2.0.0",
     "webpack": "^5.90.3",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "4.10.0",
     "webpack-dev-server": "^3.11.2",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.10.0"
   },
   "dependencies": {},
   "engines": {

@@ -1,32 +1,43 @@
-import { autoUpdater } from 'electron-updater';
 import { ipcMain } from 'electron';
 import { Application } from '../application';
 
 export const runAutoUpdaterService = () => {
   let updateAvailable = false;
+  let autoUpdaterInitialized = false;
 
-  ipcMain.on('install-update', () => {
-    if (process.env.NODE_ENV !== 'development') {
-      autoUpdater.quitAndInstall(true, true);
-    }
-  });
+  const initializeAutoUpdater = () => {
+    autoUpdaterInitialized = true;
+    const { autoUpdater } = require('electron-updater');
 
-  ipcMain.handle('is-update-available', () => {
-    return updateAvailable;
-  });
+    ipcMain.on('install-update', () => {
+      if (process.env.NODE_ENV !== 'development') {
+        autoUpdater.quitAndInstall(true, true);
+      }
+    });
 
-  ipcMain.on('update-check', () => {
-    autoUpdater.checkForUpdates();
-  });
+    ipcMain.handle('is-update-available', () => {
+      return updateAvailable;
+    });
 
-  autoUpdater.on('update-downloaded', () => {
-    updateAvailable = true;
+    ipcMain.on('update-check', () => {
+      autoUpdater.checkForUpdates();
+    });
 
-    for (const window of Application.instance.windows.list) {
-      window.send('update-available');
-      Application.instance.dialogs
-        .getDynamic('menu')
-        ?.browserView?.webContents?.send('update-available');
+    autoUpdater.on('update-downloaded', () => {
+      updateAvailable = true;
+
+      for (const window of Application.instance.windows.list) {
+        window.send('update-available');
+        Application.instance.dialogs
+          .getDynamic('menu')
+          ?.browserView?.webContents?.send('update-available');
+      }
+    });
+  };
+
+  ipcMain.on('initialize-auto-updater', () => {
+    if (!autoUpdaterInitialized) {
+      initializeAutoUpdater();
     }
   });
 };
