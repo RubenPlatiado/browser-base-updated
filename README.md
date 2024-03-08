@@ -72,17 +72,25 @@ UI compact variant:
 - [Nightlies](https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.0.1)
 
 # To Do List
++ Fix Bugs
 
-+ update the node.js version to a newer version (Complete)
-+ improve optimization while building
-+ improve browsing performance
-+ add the zoom feature
+### Instructions for setting up your build environment for windows, Linux and mac os
 
-### Instructions for setting up your build environment for windows
++ if your starting on linux or mac os this is the following command below before installing npm
 
-+ Download nvm (Node Version Manegar) from [`here`](https://github.com/coreybutler/nvm-windows)
+```bash
+sudo apt update # Checks for the latest version
+```
+
++ Now for installing npm on mac os and linux run the following command in your terminal
+
+```bash
+sudo apt install npm # this command will install npm for linux and mac os
+```
+
++ To Help you keep track of all your versions and make things a little easier for you, Download nvm (Node Version Manegar) from [`here`](https://github.com/coreybutler/nvm-windows)
   
-+ after installing NVM Run your Command Prompt as Admin then type the following command
++ after installing NVM Run your terminal or Command Prompt, then type the following command
   
 ```bash
 nvm install 21.6.2 # this installed the compatible version of node.js for this project
@@ -91,26 +99,35 @@ nvm install 21.6.2 # this installed the compatible version of node.js for this p
 after installing the correct version of node.js we want the nvm to use this version as its main defalt version slot, you can do this by running
 
 ```bash
-nvm use 21.6.2 # sets the version you specified as defalt
+nvm use 21.6.2 # sets the version you specified as defalt if your on windows but this command is also required to be ran on linux and mac os as well
 ```
 
-make sure you have the 29.1.0 version of electron installed, you can do so by running this command
+and if your using linux or mac os run this command alongsize the other one
 
 ```bash
-npm install electron@29.1.0
+nvm alias default 21.6.2 # Sets the node version as the main defalt alias on linux and mac os
+```
+
+make sure you have the 29.1.0 version of electron installed, you can do so by running this command in your terminal or command prompt
+
+```bash
+npm install -g electron@29.1.0
 ```
 
 + Next up is installing yarn, which you can find from [`here`](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
 
+# Note: New Versions of Node.js No Longer Need Windows Build Tools Alongside it but the command is here just in case
+
+
 Make sure you have build tools installed. You can install them by running this command as **administrator**:
 
-+ if you need to install windows build tools the command is here just in case but in reality newer versionf of node.js have windows build tools built in, this command is here just in case the project pulls from the native install, which happens sometimes
++ if you need to install windows build tools the command is below
 
 ```bash
 npm i -g windows-build-tools
 ```
 
-# Building and Running Commands
+# Building and Running Commands for Linux, mac os, and windows
 
 ```bash
  yarn install # Install needed depedencies.
@@ -126,10 +143,15 @@ npm i -g windows-build-tools
  yarn lint # Runs linter
  yarn lint-fix # Runs linter and automatically applies fixes
 ```
+### Compiling and yarn lint Commands for Linux and mac os
+
+```bash
+$ yarn compile-linux # Package Wexond for Linux
+$ yarn compile-darwin # Package Wexond for macOS
+```
 
 # Note
-+ i am currently working on implamenting steps for linux and mac os users, as of now i am sorry
-  Reason being is because i only have a windows system and am working on finding proper instructions
+even tho this project will work on linux and mac os, i dont officially post it in the releases section of the repo quit yet but it is confermed to work on linux and mac os perfect as i have tested, so if you use linux and mac os for now you will haf to build the project before you start web browsing.
 
 More commands can be found in [`package.json`](package.json).
 
