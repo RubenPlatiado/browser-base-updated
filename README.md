@@ -130,7 +130,7 @@ npm install -g electron@29.1.0
 + Next up is installing yarn, which you can find from [`here`](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
 
 
-### Note: New Versions of Node.js No Longer Need Windows Build Tools Alongside it but the command is here just in case
+# Note: New Versions of Node.js No Longer Need Windows Build Tools Alongside it but the command is here just in case
 
 
 Make sure you have build tools installed. You can install them by running this command as **administrator**:
