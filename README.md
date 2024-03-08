@@ -144,7 +144,7 @@ npm i -g windows-build-tools
 ```
 
 
-# Building and Running Commands for Linux, mac os, and windows
+### Building and Running Commands for Linux, mac os, and windows
 
 
 ```bash
