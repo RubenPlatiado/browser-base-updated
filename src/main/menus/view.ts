@@ -1,5 +1,12 @@
 import { AppWindow } from '../windows';
-import { clipboard, Menu } from 'electron';
+import {
+  clipboard,
+  nativeImage,
+  Menu,
+  session,
+  ipcMain,
+  BrowserView,
+} from 'electron';
 import { isURL, prefixHttp } from '~/utils';
 import { saveAs, viewSource, printPage } from './common-actions';
 
@@ -8,50 +15,116 @@ export const getViewMenu = (
   params: Electron.ContextMenuParams,
   webContents: Electron.WebContents,
 ) => {
-  const menuItems: Electron.MenuItemConstructorOptions[] = [];
-
-  const addItem = (label: string, click: () => void) => {
-    menuItems.push({ label, click });
-  };
-
-  const addSeparator = () => {
-    menuItems.push({ type: 'separator' });
-  };
+  let menuItems: Electron.MenuItemConstructorOptions[] = [];
 
   if (params.linkURL !== '') {
-    addItem('Open link in new tab', () => {
-      appWindow.viewManager.create({ url: params.linkURL, active: false }, true);
-    });
-    addSeparator();
-    addItem('Copy link address', () => {
-      clipboard.clear();
-      clipboard.writeText(params.linkURL);
-    });
-    addSeparator();
+    menuItems = menuItems.concat([
+      {
+        label: 'Open link in new tab',
+        click: () => {
+          appWindow.viewManager.create(
+            {
+              url: params.linkURL,
+              active: false,
+            },
+            true,
+          );
+        },
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Copy link address',
+        click: () => {
+          clipboard.clear();
+          clipboard.writeText(params.linkURL);
+        },
+      },
+      {
+        type: 'separator',
+      },
+    ]);
   }
 
   if (params.hasImageContents) {
-    addItem('Open image in new tab', () => {
-      appWindow.viewManager.create({ url: params.srcURL, active: false }, true);
-    });
-    addItem('Copy image', () => webContents.copyImageAt(params.x, params.y));
-    addItem('Copy image address', () => {
-      clipboard.clear();
-      clipboard.writeText(params.srcURL);
-    });
-    addItem('Save image as...', () => {
-      appWindow.webContents.downloadURL(params.srcURL);
-    });
-    addSeparator();
+    menuItems = menuItems.concat([
+      {
+        label: 'Open image in new tab',
+        click: () => {
+          appWindow.viewManager.create(
+            {
+              url: params.srcURL,
+              active: true,
+            },
+            true,
+          );
+        },
+      },
+      {
+        label: 'Copy image',
+        click: () => webContents.copyImageAt(params.x, params.y),
+      },
+      {
+        label: 'Copy image address',
+        click: () => {
+          clipboard.clear();
+          clipboard.writeText(params.srcURL);
+        },
+      },
+      {
+        label: 'Save image as...',
+        click: () => {
+          appWindow.webContents.downloadURL(params.srcURL);
+        },
+      },
+      {
+        type: 'separator',
+      },
+    ]);
+  }
+
+  if (params.mediaFlags.canShowPictureInPicture) {
+    menuItems = menuItems.concat([
+      {
+        type: 'checkbox',
+        label: 'Picture in Picture',
+        checked: params.mediaFlags.isShowingPictureInPicture,
+        click: () => {
+          webContents.executeJavaScript(
+            params.mediaFlags.isShowingPictureInPicture
+              ? `document.exitPictureInPicture()`
+              : `document.elementFromPoint(${params.x}, ${params.y}).requestPictureInPicture()`,
+          );
+        },
+      },
+      {
+        type: 'separator',
+      },
+    ]);
   }
 
   if (params.isEditable) {
-    menuItems.push(
-      { role: 'undo', accelerator: 'CmdOrCtrl+Z' },
-      { role: 'redo', accelerator: 'CmdOrCtrl+Shift+Z' },
-      { type: 'separator' },
-      { role: 'cut', accelerator: 'CmdOrCtrl+X' },
-      { role: 'copy', accelerator: 'CmdOrCtrl+C' },
+    menuItems = menuItems.concat([
+      {
+        role: 'undo',
+        accelerator: 'CmdOrCtrl+Z',
+      },
+      {
+        role: 'redo',
+        accelerator: 'CmdOrCtrl+Shift+Z',
+      },
+      {
+        type: 'separator',
+      },
+      {
+        role: 'cut',
+        accelerator: 'CmdOrCtrl+X',
+      },
+      {
+        role: 'copy',
+        accelerator: 'CmdOrCtrl+C',
+      },
       {
         role: 'pasteAndMatchStyle',
         accelerator: 'CmdOrCtrl+V',
@@ -62,56 +135,122 @@ export const getViewMenu = (
         accelerator: 'CmdOrCtrl+Shift+V',
         label: 'Paste as plain text',
       },
-      { role: 'selectAll', accelerator: 'CmdOrCtrl+A' },
-      { type: 'separator' }
-    );
+      {
+        role: 'selectAll',
+        accelerator: 'CmdOrCtrl+A',
+      },
+      {
+        type: 'separator',
+      },
+    ]);
   }
 
   if (!params.isEditable && params.selectionText !== '') {
-    addItem('Copy', () => {});
-    addSeparator();
+    menuItems = menuItems.concat([
+      {
+        role: 'copy',
+        accelerator: 'CmdOrCtrl+C',
+      },
+      {
+        type: 'separator',
+      },
+    ]);
   }
 
   if (params.selectionText !== '') {
     const trimmedText = params.selectionText.trim();
 
     if (isURL(trimmedText)) {
-      addItem('Go to ' + trimmedText, () => {
-        appWindow.viewManager.create({ url: prefixHttp(trimmedText), active: true }, true);
-      });
-      addSeparator();
+      menuItems = menuItems.concat([
+        {
+          label: 'Go to ' + trimmedText,
+          click: () => {
+            appWindow.viewManager.create(
+              {
+                url: prefixHttp(trimmedText),
+                active: true,
+              },
+              true,
+            );
+          },
+        },
+        {
+          type: 'separator',
+        },
+      ]);
     }
   }
 
-  if (!params.hasImageContents && params.linkURL === '' && params.selectionText === '' && !params.isEditable) {
-    addItem('Go back', () => {
-      webContents.goBack();
-    });
-    addItem('Go forward', () => {
-      webContents.goForward();
-    });
-    addItem('Reload', () => {
-      webContents.reload();
-    });
-    addSeparator();
-    addItem('Save as...', () => {
-      saveAs();
-    });
-    addItem('Print', () => {
-      printPage();
-    });
-    addSeparator();
-    addItem('View page source', () => {
-      viewSource();
-    });
+  if (
+    !params.hasImageContents &&
+    params.linkURL === '' &&
+    params.selectionText === '' &&
+    !params.isEditable
+  ) {
+    menuItems = menuItems.concat([
+      {
+        label: 'Go back',
+        accelerator: 'Alt+Left',
+        enabled: webContents.canGoBack(),
+        click: () => {
+          webContents.goBack();
+        },
+      },
+      {
+        label: 'Go forward',
+        accelerator: 'Alt+Right',
+        enabled: webContents.canGoForward(),
+        click: () => {
+          webContents.goForward();
+        },
+      },
+      {
+        label: 'Reload',
+        accelerator: 'CmdOrCtrl+R',
+        click: () => {
+          webContents.reload();
+        },
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Save as...',
+        accelerator: 'CmdOrCtrl+S',
+        click: async () => {
+          await saveAs();
+        },
+      },
+      {
+        label: 'Print',
+        accelerator: 'CmdOrCtrl+P',
+        click: async () => {
+          printPage();
+        },
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: 'View page source',
+        accelerator: 'CmdOrCtrl+U',
+        click: async () => {
+          await viewSource();
+        },
+      },
+    ]);
   }
 
-  addItem('Inspect', () => {
-    webContents.inspectElement(params.x, params.y);
+  menuItems.push({
+    label: 'Inspect',
+    accelerator: 'CmdOrCtrl+Shift+I',
+    click: () => {
+      webContents.inspectElement(params.x, params.y);
 
-    if (webContents.isDevToolsOpened()) {
-      webContents.devToolsWebContents.focus();
-    }
+      if (webContents.isDevToolsOpened()) {
+        webContents.devToolsWebContents.focus();
+      }
+    },
   });
 
   return Menu.buildFromTemplate(menuItems);

@@ -49,7 +49,7 @@ function getIcon(
     }
   }
 
-  if (Application.instance.settings.object.theme === 'wexond-dark') {
+  if (Application.instance.settings.object.theme === 'promethium-dark') {
     if (isFolder) {
       return getPath('folder_light');
     } else {
@@ -121,8 +121,8 @@ export function createMenu(appWindow: AppWindow, item: IBookmark) {
     },
     {
       label: 'Delete',
-      click: () => {
-        Application.instance.storage.removeBookmark(item._id);
+      click: async () => {
+        await Application.instance.storage.removeBookmark(item._id);
       },
     },
   ];

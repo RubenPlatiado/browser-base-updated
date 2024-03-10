@@ -218,7 +218,7 @@ export class View {
       async (e, favicons) => {
         this.favicon = favicons[0];
 
-        this.updateData();
+        await this.updateData();
 
         try {
           let fav = this.favicon;

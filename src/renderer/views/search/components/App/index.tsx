@@ -105,17 +105,20 @@ export const App = observer(() => {
   let customIcon = true;
 
   if (suggestion && suggestionsVisible) {
-    favicon = suggestion.favicon;
-    customIcon = false;
+    // Check if the suggestion has a valid favicon URL
+    if (suggestion.favicon && suggestion.favicon.trim() !== '') {
+      favicon = suggestion.favicon;
+      customIcon = false;
+
+      // Check if the favicon URL is in ICO format, convert to PNG if necessary
+      if (favicon.endsWith('.ico')) {
+        favicon = favicon.replace(/\.ico$/, '.png');
+      }
+    }
 
     if (suggestion.isSearch) {
       favicon = store.searchEngine.icon;
-    } else if (
-      favicon == null ||
-      favicon.trim() === '' ||
-      favicon === ICON_PAGE
-    ) {
-      favicon = ICON_PAGE;
+    } else if (favicon === ICON_PAGE) {
       customIcon = true;
     }
   }
