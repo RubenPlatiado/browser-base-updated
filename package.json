@@ -1,7 +1,7 @@
 {
   "name": "wexond",
   "license": "MIT",
-  "version": "7.0.8-nightly.2",
+  "version": "7.1.0-nightly.2",
   "sideEffects": false,
   "description": "Extensible, fast and innovative web browser with material UI.",
   "keywords": [
@@ -56,8 +56,8 @@
     "@types/styled-components": "5.1.25",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
-    "@wexond/rpc-core": "^1.0.3",
-    "@wexond/rpc-electron": "^1.0.3",
+    "@wexond/rpc-core": "file:./base-rpc/packages/rpc-core",
+    "@wexond/rpc-electron": "file:./base-rpc/packages/rpc-electron",
     "animejs": "^3.2.1",
     "awesome-node-loader": "^1.1.1",
     "babel-loader": "^8.2.2",

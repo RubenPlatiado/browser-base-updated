@@ -130,7 +130,7 @@ export const getMainMenu = () => {
           (window) => {
             app.quit();
           },
-          'Quit Promethium',
+          'Quit Wexond',
         ),
 
         // ...(!isMac ? [{ role: 'quit' }] : [{}]),
@@ -389,7 +389,7 @@ export const getMainMenu = () => {
                    width: 308,
                    height: 232,
                    useContentSize: true,
-                   title: "About Promethium",
+                   title: "About Wexond",
                    icon: isWin ? resolve(app.getAppPath(),`static/icons/icon.ico`) : resolve(app.getAppPath(),`static/icons/icon.png`),
                    webPreferences: {
                      nodeIntegration: false,

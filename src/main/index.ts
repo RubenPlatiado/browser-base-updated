@@ -19,6 +19,42 @@ export const isNightly = app.name === 'wexond-nightly';
 app.allowRendererProcessReuse = true;
 app.name = isNightly ? 'Wexond Nightly' : 'Wexond';
 
+// the following code is flags to provide a diffrent use of the app
+
+// Including new Canvas2D APIs
+app.commandLine.appendSwitch('new-canvas-2d-api');
+// Enable local DOM to access all resources in a tree
+app.commandLine.appendSwitch('enable-local-file-accesses');
+// Enable QUIC for faster handshakes
+app.commandLine.appendSwitch('enable-quic');
+// Enable inspecting ALL layers
+app.commandLine.appendSwitch('enable-ui-devtools');
+// Force enable GPU acceleration
+app.commandLine.appendSwitch('ignore-gpu-blocklist');
+// Force enable GPU rasterization
+app.commandLine.appendSwitch('enable-gpu-rasterization');
+// Enable Zero Copy for GPU memory associated with Tiles
+app.commandLine.appendSwitch('enable-zero-copy');
+// Enable all WebGL Features
+app.commandLine.appendSwitch('enable-webgl-draft-extensions');
+// Transparent overlays for Wexond UI
+app.commandLine.appendSwitch('enable-transparent-visuals');
+// Enable background throttling
+// app.commandLine.appendSwitch('disable-background-timer-throttling');
+// Enable display compositing in the browser process
+// app.commandLine.appendSwitch('enable-browser-side-compositing');
+// Enable smooth scrolling
+app.commandLine.appendSwitch('enable-smooth-scrolling');
+// Enable experimental features to reduce memory usage
+app.commandLine.appendSwitch('enable-experimental-web-platform-features');
+// Enable fast tab/window close
+app.commandLine.appendSwitch('fast-tab-windows-close');
+// Enable tab discarding
+app.commandLine.appendSwitch('enable-tab-discarding');
+// Enable composited render layer borders
+// app.commandLine.appendSwitch('show-composited-layer-borders');
+
+
 (process.env as any)['ELECTRON_DISABLE_SECURITY_WARNINGS'] = true;
 
 app.commandLine.appendSwitch('--enable-transparent-visuals');
