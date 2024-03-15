@@ -148,7 +148,7 @@ npm i -g windows-build-tools
 
 ### Building and Running Commands for Linux, mac os, and windows
 
-###N NOTE: Before actually starting the project or even building it make sure to run the yarn install command in the base-rpc first to install its required files
+### NOTE: Before actually starting the project or even building it make sure to run the yarn install command in the base-rpc first to install its required files
 
 ```bash
  yarn install # Install needed depedencies.
