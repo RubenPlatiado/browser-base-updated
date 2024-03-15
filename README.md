@@ -185,3 +185,5 @@ Guides and the API reference are located in [`docs`](docs) directory.
 # License
 
 This Project Uses a MIT License, Which is free.
+
+[Link to base-rpc file](https://github.com/IroniumStudios/base-rpc)
