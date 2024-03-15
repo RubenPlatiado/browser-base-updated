@@ -154,6 +154,8 @@ npm i -g windows-build-tools
 yarn install # Install needed depedencies for base-rpc.
 ```
 
+#### Now go back to the main browser-base-updated folder and run the commands below
+
 ```bash
  yarn install # Install needed depedencies.
  yarn run build # Builds native modules using Electron headers.
