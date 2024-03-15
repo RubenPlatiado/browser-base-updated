@@ -1078,10 +1078,10 @@
   integrity sha512-oxnCNGj88fL+xzV+dacXs44HcDwf1ovs3AuEzvP7mqXw7fQntqIhQ1BRmynh4qEKQSSSRSWVyXRjmTbZIX9V2Q==
 
 "@wexond/rpc-core@file:./base-rpc/packages/rpc-core":
-  version "1.0.3"
+  version "1.0.4"
 
 "@wexond/rpc-electron@file:./base-rpc/packages/rpc-electron":
-  version "1.0.3"
+  version "1.0.4"
 
 "@xmldom/xmldom@^0.8.8":
   version "0.8.10"
