@@ -148,7 +148,7 @@ npm i -g windows-build-tools
 
 ### Building and Running Commands for Linux, mac os, and windows
 
-## open the base-rpc file and run this command
+#### open the base-rpc file and run this command
 
 ```bash
 yarn install # Install needed depedencies for base-rpc.
