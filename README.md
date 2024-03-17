@@ -125,7 +125,7 @@ make sure you have the 29.1.1 version of electron installed, you can do so by ru
 
 
 ```bash
-npm install -g electron@29.1.1
+npm install -g electron@29.1.4
 ```
 
 
