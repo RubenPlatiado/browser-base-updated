@@ -1078,10 +1078,10 @@
   integrity sha512-oxnCNGj88fL+xzV+dacXs44HcDwf1ovs3AuEzvP7mqXw7fQntqIhQ1BRmynh4qEKQSSSRSWVyXRjmTbZIX9V2Q==
 
 "@wexond/rpc-core@file:./base-rpc/packages/rpc-core":
-  version "1.0.4"
+  version "1.0.5"
 
 "@wexond/rpc-electron@file:./base-rpc/packages/rpc-electron":
-  version "1.0.4"
+  version "1.0.5"
 
 "@xmldom/xmldom@^0.8.8":
   version "0.8.10"
@@ -2783,10 +2783,10 @@ electron-updater@5.2.1:
     semver "^7.3.5"
     typed-emitter "^2.1.0"
 
-electron@^29.1.1:
-  version "29.1.1"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-29.1.1.tgz#e9cb11311324e4b43a3e73667cd2b65a30e8fa34"
-  integrity sha512-cXN15NgCi7MkzGo5/23ZQbii+0UfhmUiDjACunmzcUofYCjF42XhFbL7JZnwgI0qtBCCeJU8qZNZt9lU91gUFw==
+electron@^29.1.4:
+  version "29.1.4"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-29.1.4.tgz#6c47467ba50be5dd60b99b8737f69cd12fc0733f"
+  integrity sha512-IWXys0SqgmIfrqXusUGQC0gGG7CCqA5vfmNsUMj8dFkAnK3lisKyjSESStWlrsste/OX/AAC5wsVlf23reUNnw==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^20.9.0"

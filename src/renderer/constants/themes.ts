@@ -2,7 +2,7 @@ import { ITheme } from '~/interfaces';
 import { BLUE_500 } from './colors';
 
 export const lightTheme: ITheme = {
-  'titlebar.backgroundColor': '#d4d4d4',
+  'titlebar.backgroundColor': '#e0e0e0', // Lightened titlebar color
   'addressbar.backgroundColor': '#fff',
   'addressbar.textColor': '#000',
   'toolbar.backgroundColor': '#f8f8f8',
@@ -36,15 +36,15 @@ export const lightTheme: ITheme = {
 };
 
 export const darkTheme: ITheme = {
-  'titlebar.backgroundColor': '#1c1c1c',
+  'titlebar.backgroundColor': '#232323', // Slightly darker titlebar color
   'addressbar.backgroundColor': '#262626',
   'addressbar.textColor': '#fff',
-  'toolbar.backgroundColor': '#333333',
+  'toolbar.backgroundColor': '#373737', // Lighter toolbar color
   'toolbar.bottomLine.backgroundColor': 'rgba(255, 255, 255, 0.08)',
   'toolbar.lightForeground': true,
   'toolbar.separator.color': 'rgba(255, 255, 255, 0.12)',
   'tab.selected.textColor': '#fff',
-  'tab.textColor': 'rgba(255, 255, 255, 0.54)',
+  'tab.textColor': 'rgba(255, 255, 255, 0.7)', // Lighter tab text color
   'control.backgroundColor': 'rgba(255, 255, 255, 0.1)',
   'control.hover.backgroundColor': 'rgba(255, 255, 255, 0.12)',
   'control.valueColor': '#fff',
@@ -54,7 +54,7 @@ export const darkTheme: ITheme = {
   'dialog.separator.color': 'rgba(255, 255, 255, 0.12)',
   'dialog.textColor': '#fff',
   'dialog.lightForeground': true,
-  'searchBox.backgroundColor': '#262626',
+  'searchBox.backgroundColor': '#272727', // Slightly lighter textbox color
   'searchBox.lightForeground': true,
   'pages.backgroundColor': '#212121',
   'pages.lightForeground': true,
