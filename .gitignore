@@ -1,5 +1,4 @@
 node_modules
-*.log
 *.log*
 build
 dist
@@ -7,7 +6,6 @@ dist
 .fusebox
 filters
 package-lock.json
-temp-electron-builder.json
-temp-package.json
+temp-*.json
 chunks-entries-map.json
 .idea
