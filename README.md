@@ -74,7 +74,11 @@ UI compact variant:
 - [Nightlies](https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.0.1)
 
 # To Do List
-+ Fix Bugs
++ fix Cliqz Adblocker, which currently makes the browser very slow after enabled
++ update the rest of the dependencys
++ add a button to the top left of the titlebar to reflect change to the theme.
++ add defalt browser support so that wexond will work when set as the defalt browser
++ Update The Projects Version of Node.js
 
 ### Instructions for setting up your build environment for windows, Linux and mac os
 
