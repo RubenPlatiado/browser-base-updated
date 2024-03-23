@@ -1,11 +1,10 @@
 import { existsSync, promises as fs } from 'fs';
 import { resolve, join } from 'path';
 import fetch from 'node-fetch';
-
 import { ElectronBlocker, Request } from '@cliqz/adblocker-electron';
 import { getPath } from '~/utils';
 import { Application } from '../application';
-import { ipcMain } from 'electron';
+import { ipcMain, dialog } from 'electron'; // Import dialog
 
 export let engine: ElectronBlocker;
 
@@ -108,6 +107,9 @@ export const runAdblockService = async (ses: any) => {
 
   engine.on('request-blocked', emitBlockedEvent);
   engine.on('request-redirected', emitBlockedEvent);
+
+  // Add warning popup
+  dialog.showMessageBox({ message: 'Warning: The adblocking is currently undergoing massive change, if you proceed to use the adblocker it will make the browser unbearably slow to use' });
 };
 
 export const stopAdblockService = (ses: any) => {

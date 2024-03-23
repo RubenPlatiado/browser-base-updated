@@ -64,7 +64,9 @@ ipcRenderer.on('zoom-factor-updated', (e, zoomFactor, showDialog) => {
 });
 
 const onShieldContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
-  const menu = require('@electron/remote/main').Menu.buildFromTemplate([
+  e.preventDefault(); // Prevent the default context menu
+  
+  const menu = require('@electron/remote').Menu.buildFromTemplate([
     {
       checked: store.settings.object.shield,
       label: 'Enabled',
@@ -76,7 +78,7 @@ const onShieldContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     },
   ]);
 
-  menu.popup();
+  menu.popup(); // Show the context menu
 };
 
 export const SiteButtons = observer(() => {

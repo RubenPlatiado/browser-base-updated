@@ -22,7 +22,7 @@ const appConfig = getConfig(getBaseConfig('app'), {
     hot: true,
     inline: true,
     disableHostCheck: true,
-    allowedHosts: "all" // Added allowedHosts configuration
+    allowedHosts: ['localhost', '127.0.0.1'], // Added allowedHosts configuration as an array
   },
 
   plugins: dev
