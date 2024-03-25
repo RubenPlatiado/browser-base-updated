@@ -31,8 +31,7 @@ let canOpenPopup = true;
 const onClick =
   (data: IBrowserAction) => (e: React.MouseEvent<HTMLDivElement>) => {
     if (data.tabId) {
-      // TODO:
-      //extensionsRenderer.browserAction.onClicked(data.extensionId, data.tabId);
+      // Removed call to non-existent onClicked method
     }
 
     if (canOpenPopup) {
@@ -40,6 +39,9 @@ const onClick =
       showPopup(data, right, bottom, false);
     }
   };
+
+
+
 
 const onContextMenu =
   (data: IBrowserAction) => (e: React.MouseEvent<HTMLDivElement>) => {
