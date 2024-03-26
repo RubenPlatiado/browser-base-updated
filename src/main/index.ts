@@ -3,6 +3,8 @@ import { setIpcMain } from '@wexond/rpc-electron';
 setIpcMain(ipcMain);
 
 // Disable hardware acceleration
+// if you wish to keep this enabled you can but if you wanna use hardware exel you can do so by just removing this line
+// Reason being is because i added a bunch of optimizations but i keep it on because hardware acceleration dosent make the app run smooth.
 app.disableHardwareAcceleration();
 
 require('@electron/remote/main').initialize();
@@ -19,7 +21,7 @@ export const isNightly = app.name === 'wexond-nightly';
 app.allowRendererProcessReuse = true;
 app.name = isNightly ? 'Wexond Nightly' : 'Wexond';
 
-// the following code is flags to provide a diffrent use of the app
+// the following code is flags to provide a different use of the app
 
 // Including new Canvas2D APIs
 app.commandLine.appendSwitch('new-canvas-2d-api');
@@ -54,6 +56,9 @@ app.commandLine.appendSwitch('enable-tab-discarding');
 // Enable composited render layer borders
 // app.commandLine.appendSwitch('show-composited-layer-borders');
 
+// Optimize GPU performance
+app.commandLine.appendSwitch('max-active-webgl-contexts', '16');
+app.commandLine.appendSwitch('disable-blur-effect');
 
 (process.env as any)['ELECTRON_DISABLE_SECURITY_WARNINGS'] = true;
 
@@ -124,3 +129,25 @@ app.on('web-contents-created', (e, webContents) => {
     }
   }
 });
+
+// Check for listeners before sending synchronous messages
+setInterval(() => {
+  const webContentsIds = webContents.getAllWebContents().map((wc) => wc.id);
+  for (const id of webContentsIds) {
+    if (ipcMain.listenerCount(`get-cosmetic-filters-first-${id}`) === 0) {
+      webContents.fromId(id).send('get-cosmetic-filters-first');
+    }
+  }
+}, 1000);
+
+// Add listeners for the 'get-cosmetic-filters-first' channel
+ipcMain.on('get-cosmetic-filters-first', (event) => {
+  event.returnValue = 'Response to the cosmetic filters request';
+});
+
+// Add additional listeners for the 'get-cosmetic-filters-first' channel
+for (let i = 0; i < 10; i++) {
+  ipcMain.on(`get-cosmetic-filters-first-${i}`, (event) => {
+    event.returnValue = 'Response to the cosmetic filters request';
+  });
+}
