@@ -109,7 +109,7 @@ export const runAdblockService = async (ses: any) => {
   engine.on('request-redirected', emitBlockedEvent);
 
   // Add warning popup
-  dialog.showMessageBox({ message: 'Warning: The adblocking is currently undergoing massive change, if you proceed to use the adblocker it will make the browser unbearably slow to use' });
+  dialog.showMessageBox({ message: 'NOTE: for the most part the adblocker can losad most pages quickly but some work websites and social media platforms still have issues what we are trying to fix.' });
 };
 
 export const stopAdblockService = (ses: any) => {
