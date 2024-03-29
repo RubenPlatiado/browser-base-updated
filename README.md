@@ -105,7 +105,7 @@ sudo apt install npm # this command will install npm for linux and mac os
 
   
 ```bash
-nvm install 21.6.2 # this installed the compatible version of node.js for this project
+nvm install 21.7.1 # this installed the compatible version of node.js for this project
 ```
 
 
@@ -113,7 +113,7 @@ after installing the correct version of node.js we want the nvm to use this vers
 
 
 ```bash
-nvm use 21.6.2 # sets the version you specified as defalt if your on windows but this command is also required to be ran on linux and mac os as well
+nvm use 21.7.1 # sets the version you specified as defalt if your on windows but this command is also required to be ran on linux and mac os as well
 ```
 
 
@@ -121,15 +121,15 @@ and if your using linux or mac os run this command alongsize the other one
 
 
 ```bash
-nvm alias default 21.6.2 # Sets the node version as the main defalt alias on linux and mac os
+nvm alias default 21.7.2 # Sets the node version as the main defalt alias on linux and mac os
 ```
 
 
-make sure you have the 29.1.1 version of electron installed, you can do so by running this command in your terminal or command prompt
+make sure you have the 29.1.6 version of electron installed, you can do so by running this command in your terminal or command prompt
 
 
 ```bash
-npm install -g electron@29.1.4
+npm install -g electron@29.1.6
 ```
 
 
