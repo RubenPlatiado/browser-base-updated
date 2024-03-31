@@ -4,6 +4,8 @@ const { promises } = require('fs');
 const { resolve } = require('path');
 const { run } = require('./utils');
 
+// imports
+
 const isNightly = package.version.indexOf('nightly') !== -1;
 
 const getPlatform = () => {
