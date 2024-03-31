@@ -4,6 +4,7 @@ const { spawn, execSync } = require('child_process');
 const CopyPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const path = require('path');
 
 let terser = require('terser');
 /* eslint-enable */
@@ -37,12 +38,22 @@ const mainConfig = getConfig({
       ],
     }),
   ],
+  
 
   optimization: {
     splitChunks: {
       chunks: 'async',
       minSize: 20000,
       maxSize: 244000,
+    },
+  },
+
+  resolve: {
+    fallback: {
+      "url": require.resolve("url/")
+    },
+    alias: {
+      '@services': path.resolve(__dirname, 'src/services'),
     },
   },
 });
@@ -65,6 +76,15 @@ const preloadConfig = getConfig({
       chunks: 'async',
       minSize: 20000,
       maxSize: 244000,
+    },
+  },
+
+  resolve: {
+    fallback: {
+      "url": require.resolve("url/")
+    },
+    alias: {
+      '@services': path.resolve(__dirname, 'src/services'),
     },
   },
 });

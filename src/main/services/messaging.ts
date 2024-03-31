@@ -1,5 +1,4 @@
 import { ipcMain } from 'electron';
-import { parse } from 'url';
 // import { getPassword, setPassword, deletePassword } from 'keytar';
 
 import { AppWindow } from '../windows';
@@ -8,7 +7,7 @@ import { showMenuDialog } from '../dialogs/menu';
 import { PreviewDialog } from '../dialogs/preview';
 import { IFormFillData, IBookmark } from '~/interfaces';
 import { SearchDialog } from '../dialogs/search';
-
+import { URL } from 'url';
 import * as bookmarkMenu from '../menus/bookmarks';
 import { showFindDialog } from '../dialogs/find';
 import { getFormFillMenuItems } from '../utils';
@@ -116,111 +115,141 @@ export const runMessagingService = (appWindow: AppWindow) => {
   });
 
   if (process.env.ENABLE_AUTOFILL) {
-    // Lazy loading for autofill functionality
-    import('keytar').then((keytar) => {
-      ipcMain.on(
-        `form-fill-update-${id}`,
-        async (e, _id: string, persistent = false) => {
-          const url = appWindow.viewManager.selected.url;
-          const { hostname } = parse(url);
+    // TODO: autofill
+    // ipcMain.on(`form-fill-show-${id}`, async (e, rect, name, value) => {
+    //   const items = await getFormFillMenuItems(name, value);
 
-          const item =
-            _id &&
-            (await Application.instance.storage.findOne<IFormFillData>({
-              scope: 'formfill',
-              query: { _id },
-            }));
+    //   if (items.length) {
+    //     appWindow.dialogs.formFillDialog.send(`formfill-get-items`, items);
+    //     appWindow.dialogs.formFillDialog.inputRect = rect;
 
-          if (item && item.type === 'password') {
-            item.fields.password = await keytar.getPassword(
-              'wexond',
-              `${hostname}-${item.fields.username}`,
-            );
-          }
+    //     appWindow.dialogs.formFillDialog.resize(
+    //       items.length,
+    //       items.find((r) => r.subtext) != null,
+    //     );
+    //     appWindow.dialogs.formFillDialog.rearrange();
+    //     appWindow.dialogs.formFillDialog.show(false);
+    //   } else {
+    //     appWindow.dialogs.formFillDialog.hide();
+    //   }
+    // });
 
-          appWindow.viewManager.selected.send(
-            `form-fill-update-${id}`,
-            item,
-            persistent,
-          );
-        },
-      );
+    // ipcMain.on(`form-fill-hide-${id}`, () => {
+    //   appWindow.dialogs.formFillDialog.hide();
+    // });
 
-      ipcMain.on(`credentials-save-${id}`, async (e, data) => {
-        const { username, password, update, oldUsername } = data;
-        const view = appWindow.viewManager.selected;
-        const hostname = view.hostname;
+    ipcMain.on(
+      `form-fill-update-${id}`,
+      async (e, _id: string, persistent = false) => {
+        const url = appWindow.viewManager.selected.url;
+        const { hostname } = new URL(url);
 
-        if (!update) {
-          const item = await Application.instance.storage.insert<IFormFillData>({
+        const item =
+          _id &&
+          (await Application.instance.storage.findOne<IFormFillData>({
             scope: 'formfill',
-            item: {
-              type: 'password',
-              url: hostname,
-              favicon: appWindow.viewManager.selected.favicon,
-              fields: {
-                username,
-                passLength: password.length,
-              },
-            },
-          });
+            query: { _id },
+          }));
 
-          appWindow.viewManager.settingsView.webContents.send(
-            'credentials-insert',
-            item,
-          );
-        } else {
-          await Application.instance.storage.update({
-            scope: 'formfill',
-            query: {
-              type: 'password',
-              url: hostname,
-              'fields.username': oldUsername,
-              'fields.passLength': password.length,
-            },
-            value: {
-              'fields.username': username,
-            },
-          });
-
-          appWindow.viewManager.settingsView.webContents.send(
-            'credentials-update',
-            { ...data, hostname },
+        if (item && item.type === 'password') {
+          item.fields.password = await getPassword(
+            'wexond',
+            `${hostname}-${item.fields.username}`,
           );
         }
 
-        await keytar.setPassword('wexond', `${hostname}-${username}`, password);
+        appWindow.viewManager.selected.send(
+          `form-fill-update-${id}`,
+          item,
+          persistent,
+        );
+      },
+    );
 
-        appWindow.send(`has-credentials-${view.id}`, true);
-      });
+    // ipcMain.on(`credentials-show-${id}`, (e, data) => {
+    //   appWindow.dialogs.credentialsDialog.send('credentials-update', data);
+    //   appWindow.dialogs.credentialsDialog.rearrange();
+    //   appWindow.dialogs.credentialsDialog.show();
+    // });
 
-      ipcMain.on(`credentials-remove-${id}`, async (e, data: IFormFillData) => {
-        const { _id, fields } = data;
-        const view = appWindow.viewManager.selected;
+    // ipcMain.on(`credentials-hide-${id}`, () => {
+    //   appWindow.dialogs.credentialsDialog.hide();
+    // });
 
-        await Application.instance.storage.remove({
+    ipcMain.on(`credentials-save-${id}`, async (e, data) => {
+      const { username, password, update, oldUsername } = data;
+      const view = appWindow.viewManager.selected;
+      const hostname = view.hostname;
+
+      if (!update) {
+        const item = await Application.instance.storage.insert<IFormFillData>({
           scope: 'formfill',
-          query: {
-            _id,
+          item: {
+            type: 'password',
+            url: hostname,
+            favicon: appWindow.viewManager.selected.favicon,
+            fields: {
+              username,
+              passLength: password.length,
+            },
           },
         });
 
-        await keytar.deletePassword('wexond', `${view.hostname}-${fields.username}`);
+        appWindow.viewManager.settingsView.webContents.send(
+          'credentials-insert',
+          item,
+        );
+      } else {
+        await Application.instance.storage.update({
+          scope: 'formfill',
+          query: {
+            type: 'password',
+            url: hostname,
+            'fields.username': oldUsername,
+            'fields.passLength': password.length,
+          },
+          value: {
+            'fields.username': username,
+          },
+        });
 
         appWindow.viewManager.settingsView.webContents.send(
-          'credentials-remove',
-          _id,
+          'credentials-update',
+          { ...data, hostname },
         );
+      }
+
+      await setPassword('wexond', `${hostname}-${username}`, password);
+
+      appWindow.send(`has-credentials-${view.id}`, true);
+    });
+
+    ipcMain.on(`credentials-remove-${id}`, async (e, data: IFormFillData) => {
+      const { _id, fields } = data;
+      const view = appWindow.viewManager.selected;
+
+      await Application.instance.storage.remove({
+        scope: 'formfill',
+        query: {
+          _id,
+        },
       });
 
-      ipcMain.on(
-        'credentials-get-password',
-        async (e, id: string, account: string) => {
-          const password = await keytar.getPassword('wexond', account);
-          e.sender.send(id, password);
-        },
+      await deletePassword('wexond', `${view.hostname}-${fields.username}`);
+
+      appWindow.viewManager.settingsView.webContents.send(
+        'credentials-remove',
+        _id,
       );
     });
+
+    ipcMain.on(
+      'credentials-get-password',
+      async (e, id: string, account: string) => {
+        const password = await getPassword('wexond', account);
+        e.sender.send(id, password);
+      },
+    );
   }
 
   ipcMain.handle(

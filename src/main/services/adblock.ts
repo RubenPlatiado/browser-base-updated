@@ -1,10 +1,11 @@
 import { existsSync, promises as fs } from 'fs';
 import { resolve, join } from 'path';
 import fetch from 'node-fetch';
+
 import { ElectronBlocker, Request } from '@cliqz/adblocker-electron';
 import { getPath } from '~/utils';
 import { Application } from '../application';
-import { ipcMain, dialog } from 'electron'; // Import dialog
+import { ipcMain } from 'electron';
 
 export let engine: ElectronBlocker;
 
@@ -107,9 +108,6 @@ export const runAdblockService = async (ses: any) => {
 
   engine.on('request-blocked', emitBlockedEvent);
   engine.on('request-redirected', emitBlockedEvent);
-
-  // Add warning popup
-  dialog.showMessageBox({ message: 'NOTE: for the most part the adblocker can losad most pages quickly but some work websites and social media platforms still have issues what we are trying to fix.' });
 };
 
 export const stopAdblockService = (ses: any) => {

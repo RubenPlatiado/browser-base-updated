@@ -15,7 +15,7 @@ import { pathExists } from '~/utils/files';
 import { extractZip } from '~/utils/zip';
 import { extensions } from 'electron-extensions';
 import { requestPermission } from './dialogs/permissions';
-import * as rimraf from 'rimraf';
+import { rimraf, rimrafSync, native, nativeSync } from 'rimraf'
 import { promisify } from 'util';
 
 const rf = promisify(rimraf);

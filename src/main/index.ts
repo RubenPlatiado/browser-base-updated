@@ -1,5 +1,8 @@
 import { ipcMain, app, webContents } from 'electron';
 import { setIpcMain } from '@wexond/rpc-electron';
+import { ElectronBlocker } from '@cliqz/adblocker-electron';
+import fetch from 'cross-fetch';
+
 setIpcMain(ipcMain);
 
 // Disable hardware acceleration
@@ -102,14 +105,16 @@ ipcMain.handle(
   `web-contents-call`,
   async (e, { webContentsId, method, args = [] }) => {
     const wc = webContents.fromId(webContentsId);
-    const result = (wc as any)[method](...args);
-
-    if (result) {
-      if (result instanceof Promise) {
-        return await result;
-      }
+    
+    // Check if the method exists on the webContents object
+    if (wc && typeof wc[method] === 'function') {
+      const result = await wc[method](...args);
 
       return result;
+    } else {
+      // Handle the case where the method does not exist
+      console.error(`Method ${method} does not exist on webContents`);
+      return null;
     }
   },
 );
@@ -127,6 +132,14 @@ app.on('web-contents-created', (e, webContents) => {
       const removedPage = backgroundPages.shift();
       // Clean up resources related to the removed page if necessary
     }
+  }
+});
+
+app.on('ready', async () => {
+  try {
+    await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch);
+  } catch (error) {
+    console.error('Error initializing adblocker:', error);
   }
 });
 

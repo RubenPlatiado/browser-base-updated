@@ -3,7 +3,7 @@ import * as remote from '@electron/remote';
 import { observable, computed, makeObservable } from 'mobx';
 import { getTheme } from '~/utils/themes';
 import { ISettings } from '~/interfaces';
-import { DEFAULT_SETTINGS } from '~/constants';
+import { DEFAULT_SETTINGS } from '~/constants'; // Import DEFAULT_SETTINGS
 
 export declare interface DialogStore {
   onVisibilityChange: (visible: boolean, ...args: any[]) => void;
@@ -13,7 +13,7 @@ export declare interface DialogStore {
 
 export class DialogStore {
   @observable
-  public settings: ISettings = DEFAULT_SETTINGS;
+  public settings: ISettings = DEFAULT_SETTINGS; // Use DEFAULT_SETTINGS here
 
   @computed
   public get theme() {

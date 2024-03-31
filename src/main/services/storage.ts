@@ -1,10 +1,10 @@
 import { ipcMain, dialog } from 'electron';
 import * as Datastore from '@seald-io/nedb';
 import { fileTypeFromBuffer } from 'file-type';
-import * as icojs from 'icojs';
+import { isICO, parseICO } from 'icojs';
 import fetch from 'node-fetch';
 
-import { getPath } from '~/utils';
+import { getPath } from '~/utils'; // Import getPath function from utils module
 import {
   IFindOperation,
   IInsertOperation,
@@ -28,6 +28,14 @@ interface Databases {
 
 const convertIcoToPng = async (icoData: Buffer): Promise<ArrayBuffer> => {
   return (await icojs.parse(icoData, 'image/png'))[0].buffer;
+};
+
+const createDatabase = (name: string) => {
+  // @ts-ignore
+  return new Datastore({
+    filename: getPath(`storage/${name}.db`),
+    autoload: true,
+  });
 };
 
 const encodeHref = (str: string) => {
