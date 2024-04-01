@@ -8,7 +8,7 @@
 [![Actions Status](https://github.com/wexond/desktop/workflows/Build/badge.svg)](https://github.com/wexond/desktop/actions)
 [![Downloads](https://img.shields.io/github/downloads/wexond/desktop/total.svg?style=flat-square)](https://wexond.net)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwexond%2Fwexond.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwexond%2Fwexond?ref=badge_shield)
-[![PayPal](https://img.shields.io/badge/PayPal-Donate-brightgreen?style=flat-square)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VCPPFUAL4R6M6&source=url)
+[![CashApp](https://cash.app/$smithy920)
 [![Discord](https://discordapp.com/api/guilds/307605794680209409/widget.png?style=shield)](https://discord.gg/P7Vn4VX)
 
 Wexond Base is a modern web browser, built on top of modern web technologies such as `Electron` and `React`, that can also be used as a framework to create a custom web browser (see the [License](#license) section).
@@ -30,6 +30,9 @@ Wexond Base is a modern web browser, built on top of modern web technologies suc
 
 # Motivation
 
+this project was a very good one, it brought intresting things to the table for wexond, and they discontenued the original project, so i did the honers of forking it and reviving it for years to come.
+
+--From The Wexond Devs--
 Compiling and editing Chromium directly may be challenging and time consuming, so we decided to build Wexond with modern web technologies. Hence, the development effort and time is greatly reduced. Either way Firefox is based on Web Components and Chrome implements new dialogs in WebUI (which essentially is hosted in WebContents).
 
 # Features
@@ -70,15 +73,11 @@ UI compact variant:
 
 
 # Downloads
-- [Stable and beta versions](https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.0.1)
-- [Nightlies](https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.0.1)
+- [Stable and beta versions]([https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.0.1](https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.2.0))
+- [Nightlies](https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.2.0)
 
 # To Do List
-+ fix Cliqz Adblocker, which currently makes the browser very slow after enabled
-+ update the rest of the dependencys
-+ add a button to the top left of the titlebar to reflect change to the theme.
-+ add defalt browser support so that wexond will work when set as the defalt browser
-+ Update The Projects Version of Node.js
++ Fix Bugs
 
 ### Instructions for setting up your build environment for windows, Linux and mac os
 
