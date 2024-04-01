@@ -5,10 +5,6 @@
 <div align="center">
   <h1>Wexond Browser Base</h1>
 
-[![Actions Status](https://github.com/IroniumStudios /desktop/workflows/Build/badge.svg)](https://github.com/IroniumStudios /desktop/actions)
-[![Downloads](https://img.shields.io/github/downloads/wexond/desktop/total.svg?style=flat-square)](https://wexond.net)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwexond%2Fwexond.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwexond%2Fwexond?ref=badge_shield)
-
 if you consider supporting me, please donate to my cashapp
 <CashApp><https://cash.app/$smithy920>
 
