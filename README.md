@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://wexond.net"><img src="static/icons/icon.png" width="256"></a>
+  <a href="[https://wexond.net](https://damonicproducts.wixsite.com/smithcloud/support)"><img src="static/icons/icon.png" width="256"></a>
 </p>
 
 <div align="center">
