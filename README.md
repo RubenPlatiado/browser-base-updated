@@ -157,6 +157,11 @@ npm i -g windows-build-tools
 ```bash
 yarn install # Install needed depedencies for base-rpc.
 ```
+#### open the embedded-packages-electron-extentions folder and run this command
+
+```bash
+yarn install # Install needed depedencies for electron-extentions
+```
 
 #### Now go back to the main browser-base-updated folder and run the commands below
 
