@@ -3,8 +3,8 @@
   "version": "7.0.1",
   "description": "Implementation of Chrome extension APIs for Wexond.",
   "homepage": "https://github.com/IroniumStudios/electron-extensions-updated/blob/master/README.md",
-  "author": "Alex313031 <alex313031@gmail.com>",
-  "license": "GPL-3.0+",
+  "author": "Damon Smith <cleverdamontoutube@gmail.com>",
+  "license": "MIT",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "repository": {
