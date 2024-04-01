@@ -45,6 +45,6 @@
     "uuid": "9.0.1",
     "webpack": "5.91.0",
     "webpack-cli": "5.1.4",
-    "webpack-merge": "5.10.0"
+    "webpack-merge": "^5.10.0"
   }
 }
