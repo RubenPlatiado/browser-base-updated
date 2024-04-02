@@ -1,7 +1,8 @@
 import { ipcMain, dialog } from 'electron';
 import * as Datastore from '@seald-io/nedb';
 import { fileTypeFromBuffer } from 'file-type';
-import { isICO, parseICO } from 'icojs';
+import * as icojs from 'parse-ico';
+//currently using an alternitive package i sourced from this one -- import { isICO, parseICO } from 'icojs';
 import fetch from 'node-fetch';
 
 import { getPath } from '~/utils'; // Import getPath function from utils module
