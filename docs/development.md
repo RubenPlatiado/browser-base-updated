@@ -2,7 +2,7 @@
 
 ## IPC
 
-Now, the preferred way to communicate between processes is to use [`@wexond/rpc-electron`](https://github.com/wexond/rpc) package.
+Now, the preferred way to communicate between processes is to use [`@wexond/rpc-electron`](https://github.com/IroniumStudios/base-rpc/tree/master/packages/rpc-electron) package.
 
 Example:
 
@@ -23,7 +23,7 @@ Common RPC interface
 
 ## Remote module
 
-As Electron will be deprecating the `remote` module, we are migrating to our RPC solution.
+As Electron has deprecated the `remote` module, i have migrated to RPC solution aka (base-rpc)
 
 ## Node integration
 
