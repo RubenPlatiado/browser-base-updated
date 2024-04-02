@@ -1,7 +1,7 @@
 {
   "name": "wexond",
   "license": "MIT",
-  "version": "7.2.0-nightly.2",
+  "version": "7.2.1-nightly.2",
   "sideEffects": false,
   "description": "Extensible, fast and innovative web browser with material UI.",
   "keywords": [
@@ -77,7 +77,7 @@
     "file-type": "^19.0.0",
     "fork-ts-checker-webpack-plugin": "^9.0.2",
     "html-webpack-plugin": "^5.6.0",
-    "icojs": "^0.19.3",
+    "parse-ico": "^1.0.1",
     "jszip": "^3.10.1",
     "mobx": "^6.12.3",
     "mobx-react-lite": "^4.0.6",
