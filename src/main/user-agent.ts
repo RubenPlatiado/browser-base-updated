@@ -11,16 +11,22 @@ const COMPONENTS_TO_REMOVE = [
   ` ${app.name}/${app.getVersion()}`,
 ];
 
-// TODO(sentialx): script to update stable Chrome version?
+// Update the version numbers of Safari and WebKit here
+const SAFARI_VERSION = '537.36';
+const WEBKIT_VERSION = '605.1.15';
+
+// Components to replace
 const COMPONENTS_TO_REPLACE: [string | RegExp, string][] = [
-  [CHROME_COMPONENT_PATTERN, ' Chrome/122.0.6261.139'],
+  [CHROME_COMPONENT_PATTERN, ' Chrome/122.0.6261.156'], // Replace with the actual Chromium version
+  [/ Safari\\?.([^\s]+)/g, ` Safari/${SAFARI_VERSION}`], // Add Safari version replacement
+  [/ AppleWebKit\\?.([^\s]+)/g, ` AppleWebKit/${WEBKIT_VERSION}`], // Add WebKit version replacement
 ];
 
 const urlMatchesPatterns = (url: string, patterns: RegExp[]) =>
   patterns.some((pattern) => url.match(pattern));
 
 /**
- * Checks if a given url is suitable for removal of Chrome
+ * Checks if a given URL is suitable for removal of Chrome
  * component from the user agent string.
  * @param url
  */
@@ -34,7 +40,7 @@ export const getUserAgentForURL = (userAgent: string, url: string) => {
   // from the user agent, to fix compatibility issues on Google Sign In.
   // WATCH: https://developers.googleblog.com/2020/08/guidance-for-our-effort-to-block-less-secure-browser-and-apps.html
   if (shouldRemoveChromeString(url)) {
-    componentsToRemove = [...componentsToRemove, CHROME_COMPONENT_PATTERN];
+    componentsToRemove.push(CHROME_COMPONENT_PATTERN);
   }
 
   // Replace the components.
