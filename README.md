@@ -68,11 +68,6 @@ UI compact variant:
 
 ![Screenshot 2024-03-02 182544](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/38092ab3-1081-4f20-bd26-a9ebd84bc342)
 
-
-# Downloads
-- [Stable and beta versions]([https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.0.1](https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.2.0))
-- [Nightlies](https://github.com/IroniumStudios/browser-base-updated/releases/tag/7.2.0)
-
 # To Do List
 + Fix Bugs
 
