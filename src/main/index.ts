@@ -2,6 +2,7 @@ import { ipcMain, app, webContents } from 'electron';
 import { setIpcMain } from '@wexond/rpc-electron';
 import { ElectronBlocker } from '@cliqz/adblocker-electron';
 import fetch from 'cross-fetch';
+const path = require('path');
 
 setIpcMain(ipcMain);
 
@@ -21,7 +22,6 @@ import { Application } from './application';
 
 export const isNightly = app.name === 'wexond-nightly';
 
-app.allowRendererProcessReuse = true;
 app.name = isNightly ? 'Wexond Nightly' : 'Wexond';
 
 // the following code is flags to provide a different use of the app
@@ -45,9 +45,9 @@ app.commandLine.appendSwitch('enable-webgl-draft-extensions');
 // Transparent overlays for Wexond UI
 app.commandLine.appendSwitch('enable-transparent-visuals');
 // Enable background throttling
-// app.commandLine.appendSwitch('disable-background-timer-throttling');
+app.commandLine.appendSwitch('disable-background-timer-throttling');
 // Enable display compositing in the browser process
-// app.commandLine.appendSwitch('enable-browser-side-compositing');
+app.commandLine.appendSwitch('enable-browser-side-compositing');
 // Enable smooth scrolling
 app.commandLine.appendSwitch('enable-smooth-scrolling');
 // Enable experimental features to reduce memory usage
@@ -56,9 +56,14 @@ app.commandLine.appendSwitch('enable-experimental-web-platform-features');
 app.commandLine.appendSwitch('fast-tab-windows-close');
 // Enable tab discarding
 app.commandLine.appendSwitch('enable-tab-discarding');
-// Enable composited render layer borders
-// app.commandLine.appendSwitch('show-composited-layer-borders');
 
+// enables protected content streaming.
+// Construct the relative path to the Widevine CDM directory
+const widevineCdmPath = path.join(__dirname, 'src', 'main', 'services', 'widevine', '_platform_specific', 'win_x64');
+
+// Append command-line switches for Widevine CDM path and version
+app.commandLine.appendSwitch('widevine-cdm-path', widevineCdmPath);
+app.commandLine.appendSwitch('widevine-cdm-version', '4.10.2710.0');
 // Optimize GPU performance
 app.commandLine.appendSwitch('max-active-webgl-contexts', '16');
 app.commandLine.appendSwitch('disable-blur-effect');
@@ -77,8 +82,8 @@ if (process.env.NODE_ENV === 'development') {
 
 ipcMain.setMaxListeners(0);
 
-// app.setAsDefaultProtocolClient('http');
-// app.setAsDefaultProtocolClient('https');
+app.setAsDefaultProtocolClient('http');
+app.setAsDefaultProtocolClient('https');
 
 const application = Application.instance;
 application.start();
@@ -107,8 +112,8 @@ ipcMain.handle(
     const wc = webContents.fromId(webContentsId);
     
     // Check if the method exists on the webContents object
-    if (wc && typeof wc[method] === 'function') {
-      const result = await wc[method](...args);
+    if (wc && typeof (wc as any)[method] === 'function') {
+      const result = await (wc as any)[method](...args);
 
       return result;
     } else {
@@ -116,7 +121,7 @@ ipcMain.handle(
       console.error(`Method ${method} does not exist on webContents`);
       return null;
     }
-  },
+  }
 );
 
 // Prevent extension background pages from being garbage collected
@@ -127,6 +132,7 @@ app.on('web-contents-created', (e, webContents) => {
     backgroundPages.push(webContents);
 
     // Limit the number of stored background pages if needed
+    const MAX_BACKGROUND_PAGES = 10; // Set a reasonable limit, adjust as needed
     if (backgroundPages.length > MAX_BACKGROUND_PAGES) {
       // Remove the oldest background page from the array
       const removedPage = backgroundPages.shift();
