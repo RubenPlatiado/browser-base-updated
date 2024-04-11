@@ -1,8 +1,6 @@
 import { remote, ipcRenderer } from 'electron';
 import { resolve } from 'path';
 
-const getWebContentsId = () => ipcRenderer.sendSync('get-webcontents-id');
-
 const app = document.getElementById('app');
 const container = document.getElementById('container');
 
@@ -12,8 +10,8 @@ let visible = false;
 const removeWebview = () => {
   if (webview) {
     container.removeChild(webview);
-    container.style.width = 0 + 'px';
-    container.style.height = 0 + 'px';
+    container.style.width = '0px';
+    container.style.height = '0px';
   }
 };
 
@@ -53,21 +51,6 @@ const createWebview = (url: string, inspect: boolean) => {
   webview.style.height = '100%';
 
   webview.addEventListener('dom-ready', () => {
-    remote.webContents
-      .fromId(webview.getWebContentsId())
-      .addListener('context-menu', (e, params) => {
-        const menu = remote.Menu.buildFromTemplate([
-          {
-            label: 'Inspect element',
-            click: () => {
-              webview.inspectElement(params.x, params.y);
-            },
-          },
-        ]);
-
-        menu.popup();
-      });
-
     if (inspect) {
       webview.openDevTools();
     }
@@ -104,3 +87,6 @@ ipcRenderer.on('data', (e, data) => {
 });
 
 ipcRenderer.send(`loaded-${getWebContentsId()}`);
+
+// Helper function to get the webContents id
+const getWebContentsId = () => ipcRenderer.sendSync('get-webcontents-id');
