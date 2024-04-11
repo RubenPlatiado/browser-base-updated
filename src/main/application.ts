@@ -39,24 +39,15 @@ export class Application {
 
         if (isAbsolute(path) && existsSync(path)) {
           if (process.env.NODE_ENV !== 'development') {
-            const path = argv[argv.length - 1];
             const ext = extname(path);
 
             if (ext === '.html') {
-              this.windows.current.win.focus();
-              this.windows.current.viewManager.create({
-                url: `file:///${path}`,
-                active: true,
-              });
+              this.openTab(`file:///${path}`);
             }
           }
           return;
         } else if (isURL(path)) {
-          this.windows.current.win.focus();
-          this.windows.current.viewManager.create({
-            url: prefixHttp(path),
-            active: true,
-          });
+          this.openTab(prefixHttp(path));
           return;
         }
 
@@ -109,6 +100,18 @@ export class Application {
       if (this.windows.list.filter((x) => x !== null).length === 0) {
         this.windows.open();
       }
+    });
+  }
+
+  private openTab(url: string) {
+    if (!this.windows.current) {
+      this.windows.current = this.windows.open();
+    }
+
+    this.windows.current.win.focus();
+    this.windows.current.viewManager.create({
+      url: url,
+      active: true,
     });
   }
 }
