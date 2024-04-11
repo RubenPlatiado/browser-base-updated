@@ -62,18 +62,13 @@ export class View {
         nodeIntegration: true,
         contextIsolation: false,
         sandbox: true,
-        //enableRemoteModule: false,
         partition: incognito ? 'view_incognito' : 'persist:view',
         plugins: true,
         nativeWindowOpen: true,
         webSecurity: true,
         javascript: true,
-        //worldSafeExecuteJavaScript: false,
       },
     });
-
-    //require('@electron/remote/main').enable(this.browserView);
-    //require('@electron/remote/main').enable(this.browserView.webContents);
 
     this.incognito = incognito;
 
@@ -174,19 +169,8 @@ export class View {
       'new-window',
       (e, url, frameName, disposition) => {
         if (disposition === 'new-window') {
-          if (frameName === '_self') {
-            e.preventDefault();
-            this.window.viewManager.selected.webContents.loadURL(url);
-          } else if (frameName === '_blank') {
-            e.preventDefault();
-            this.window.viewManager.create(
-              {
-                url,
-                active: true,
-              },
-              true,
-            );
-          }
+          e.preventDefault();
+          this.window.viewManager.create({ url, active: true }, true);
         } else if (disposition === 'foreground-tab') {
           e.preventDefault();
           this.window.viewManager.create({ url, active: true }, true);
@@ -445,6 +429,8 @@ export class View {
   }
 
   public emitEvent(event: TabEvent, ...args: any[]) {
-    this.window.send('tab-event', event, this.id, args);
+    if (this.window && this.window.send) {
+      this.window.send('tab-event', event, this.id, args);
+    }
   }
 }
