@@ -5,3 +5,4 @@
 + finish migrating from remote modules to ipc
 + fix any potential memory leaks
 + fully fix the favicon loading system as some websites dont show there respective icons
++ fix something thats causing some websites to say it couldent loaad because you sent to many requests at once
