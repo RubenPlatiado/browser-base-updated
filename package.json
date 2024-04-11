@@ -1,7 +1,7 @@
 {
   "name": "wexond",
   "license": "MIT",
-  "version": "7.2.2-nightly.2",
+  "version": "7.2.3-nightly.2",
   "sideEffects": false,
   "description": "Extensible, fast and innovative web browser with material UI.",
   "keywords": [
@@ -43,17 +43,17 @@
     "@electron/remote": "^2.1.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@types/animejs": "^3.1.12",
-    "@types/chrome": "0.0.263",
+    "@types/chrome": "0.0.266",
     "@types/crypto-js": "^4.2.2",
     "@types/nedb": "1.8.16",
-    "@types/node": "20.12.4",
+    "@types/node": "20.12.7",
     "@types/node-fetch": "^2.6.11",
-    "@types/react": "18.2.74",
+    "@types/react": "18.2.75",
     "@types/react-dom": "18.2.24",
     "@types/rimraf": "^4.0.5",
     "@types/styled-components": "5.1.34",
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "@typescript-eslint/parser": "^7.5.0",
+    "@typescript-eslint/eslint-plugin": "^7.6.0",
+    "@typescript-eslint/parser": "^7.6.0",
     "@wexond/rpc-core": "file:./base-rpc/packages/rpc-core",
     "@wexond/rpc-electron": "file:./base-rpc/packages/rpc-electron",
     "@wexond/rpc-node": "file:./base-rpc/packages/rpc-node",
@@ -66,12 +66,12 @@
     "copy-webpack-plugin": "^12.0.2",
     "cross-env": "7.0.3",
     "dmg-builder": "25.0.0-alpha.6",
-    "electron": "^29.2.0",
+    "electron": "^29.3.0",
     "electron-builder": "^24.13.3",
     "electron-builder-squirrel-windows": "^25.0.0-alpha.6",
     "electron-extensions": "file:./embedded-packages/electron-extensions",
     "electron-updater": "6.1.8",
-    "eslint": "^8.57.0",
+    "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.34.1",
@@ -99,7 +99,7 @@
     "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.2.3",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.5",
     "typescript-plugin-styled-components": "^3.0.0",
     "webpack": "^5.91.0",
     "webpack-bundle-analyzer": "^4.10.1",
@@ -108,23 +108,25 @@
     "webpack-merge": "^5.10.0"
   },
   "dependencies": {
-    "@cliqz/adblocker": "1.24.0",
-    "@cliqz/adblocker-content": "1.24.0",
-    "@cliqz/adblocker-electron": "1.24.0",
-    "@cliqz/adblocker-electron-preload": "1.24.0",
-    "@cliqz/adblocker-extended-selectors": "1.24.0",
+    "@cliqz/adblocker": "1.25.1",
+    "@cliqz/adblocker-content": "1.25.1",
+    "@cliqz/adblocker-electron": "1.25.1",
+    "@cliqz/adblocker-electron-preload": "1.25.1",
+    "@cliqz/adblocker-extended-selectors": "1.25.1",
     "@seald-io/nedb": "^4.0.4",
     "chokidar": "^3.6.0",
     "cross-fetch": "^4.0.0",
     "path": "^0.12.7",
-    "resolve-url": "^0.2.1",
-    "source-map-resolve": "^0.6.0",
-    "source-map-url": "^0.4.1",
-    "urix": "^0.1.0",
     "url": "^0.11.3",
     "uuid": "^9.0.1"
   },
+  "patches": {
+    "@cliqz/adblocker-electron": {
+      "patches/@cliqz+adblocker-electron+1.25.1/dist/cjs/adblocker.js": "patches/@cliqz+adblocker-electron+1.25.1.patch"
+    }
+  },
   "engines": {
     "node": "21.7.1"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }
