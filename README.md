@@ -68,9 +68,6 @@ UI compact variant:
 
 ![Screenshot 2024-03-02 182544](https://github.com/IroniumStudios/browser-base-updated/assets/137374946/38092ab3-1081-4f20-bd26-a9ebd84bc342)
 
-# To Do List
-+ Fix Bugs
-
 ### Instructions for setting up your build environment for windows, Linux and mac os
 
 + if your starting on linux or mac os this is the following command below before installing npm
@@ -116,15 +113,15 @@ nvm alias default 21.7.2 # Sets the node version as the main defalt alias on lin
 ```
 
 
-make sure you have the 29.1.6 version of electron installed, you can do so by running this command in your terminal or command prompt
+make sure you have the 29.3.0 version of electron installed, you can do so by running this command in your terminal or command prompt
 
 
 ```bash
-npm install -g electron@29.1.6
+npm install -g electron@29.3.0
 ```
 
 
-+ Next up is installing yarn, which you can find from [`here`](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
++ Next up is installing yarn package manegar version 4.1.1, which you can find from [`here`](https://yarnpkg.com/getting-started/install)
 
 
 #### Note: New Versions of Node.js No Longer Need Windows Build Tools Alongside it but the command is here just in case
