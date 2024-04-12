@@ -12,6 +12,15 @@ Wexond Base is a modern web browser, built on top of modern web technologies suc
 
 [NOTE: the base-rpc project is a fork of the wexond rpc project, my fork can be found by clicking this text if you wish to only use rpc](https://github.com/IroniumStudios/base-rpc)
 
+---
+
+![](https://via.placeholder.com/15/red/ffffff?text=!)
+
+NOTE electron has depricated BrowserView in v29.0.0 and they plan to have it completly removed in v30.0.0, so i am currently using the [BrowserView API](https://www.electronjs.org/docs/api/browser-view) to create the new tab page, and any other componants that use it, this is a temporary solution until they remove it.
+
+---
+
+
 </div>
 
 # Table of Contents:
