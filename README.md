@@ -12,13 +12,14 @@ Wexond Base is a modern web browser, built on top of modern web technologies suc
 
 [NOTE: the base-rpc project is a fork of the wexond rpc project, my fork can be found by clicking this text if you wish to only use rpc](https://github.com/IroniumStudios/base-rpc)
 
----
-
-![](https://via.placeholder.com/15/red/ffffff?text=!)
-
-NOTE electron has depricated BrowserView in v29.0.0 and they plan to have it completly removed in v30.0.0, so i am currently using the [BrowserView API](https://www.electronjs.org/docs/api/browser-view) to create the new tab page, and any other componants that use it, this is a temporary solution until they remove it.
-
----
+<div style="background-color: #f0f0f0; padding: 10px; border-left: 5px solid #ccc;">
+  <p style="margin-bottom: 0;">
+    <img src="https://via.placeholder.com/15/red/ffffff?text=!" alt="!" style="vertical-align: middle; margin-right: 5px;"> 
+    <strong>NOTE:</strong> Electron has deprecated BrowserView in v29.0.0 and plans to have it completely removed in v30.0.0. 
+    So, I am currently using the <a href="https://www.electronjs.org/docs/api/browser-view" style="color: #0366d6;">BrowserView API</a> to create the new tab page and any other components that use it. 
+    This is a temporary solution until they remove it.
+  </p>
+</div>
 
 
 </div>
