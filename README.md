@@ -15,10 +15,7 @@ Wexond Base is a modern web browser, built on top of modern web technologies suc
 <div style="background-color: #f0f0f0; padding: 10px; border-left: 5px solid #ccc;">
   <p style="margin-bottom: 0;">
   ---
-    <strong>NOTE:</strong> Electron has deprecated BrowserView in v29.0.0 and plans to have it completely removed in v30.0.0. 
-    So, I am currently using the <a href="https://www.electronjs.org/docs/api/browser-view" style="color: #0366d6;">BrowserView API</a> to create the new tab page and any other components that use it,
-    This is a temporary solution until they remove it.
-     if i dont end up writing a fix for it ill probabley just switch to using chromium instead of using electron.
+    <strong>NOTE:</strong> Electron has deprecated BrowserView, i am currently in the process of migrating the code to use the new WebContentsView class
   </p>
 </div>
 
