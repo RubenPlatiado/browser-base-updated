@@ -12,14 +12,6 @@ Wexond Base is a modern web browser, built on top of modern web technologies suc
 
 [NOTE: the base-rpc project is a fork of the wexond rpc project, my fork can be found by clicking this text if you wish to only use rpc](https://github.com/IroniumStudios/base-rpc)
 
-<div style="background-color: #f0f0f0; padding: 10px; border-left: 5px solid #ccc;">
-  <p style="margin-bottom: 0;">
-  ---
-    <strong>NOTE:</strong> Electron has deprecated BrowserView, i am currently in the process of migrating the code to use the new WebContentsView class
-  </p>
-</div>
-
-
 </div>
 
 # Table of Contents:
