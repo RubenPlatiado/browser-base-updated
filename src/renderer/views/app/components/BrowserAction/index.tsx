@@ -33,8 +33,8 @@ const onClick = (data: IBrowserAction) => (
   e: React.MouseEvent<HTMLDivElement>,
 ) => {
   if (data.tabId) {
-    // TODO:
-    // extensionsRenderer.browserAction.onClicked(data.extensionId, data.tabId);
+    // TODO: implement logic for tabid
+    console.log(`Logic related to tabId: ${data.tabId}`);
   }
 
   if (canOpenPopup) {
