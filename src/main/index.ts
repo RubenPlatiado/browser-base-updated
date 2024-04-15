@@ -6,7 +6,8 @@ const path = require('path');
 
 setIpcMain(ipcMain);
 
-app.disableHardwareAcceleration();
+// by defalt we no longer need this on because of the additional flags i
+// app.disableHardwareAcceleration();
 
 require('@electron/remote/main').initialize();
 
@@ -36,6 +37,15 @@ app.commandLine.appendSwitch('enable-smooth-scrolling');
 app.commandLine.appendSwitch('enable-experimental-web-platform-features');
 app.commandLine.appendSwitch('fast-tab-windows-close');
 app.commandLine.appendSwitch('enable-tab-discarding');
+app.commandLine.appendSwitch('enable-use-zoom-for-dsf');
+app.commandLine.appendSwitch('disable-gpu-vsync');
+app.commandLine.appendSwitch('enable-begin-frame-scheduling');
+app.commandLine.appendSwitch('disable-frame-rate-limit');
+app.commandLine.appendSwitch('disable-gpu-compositing');
+app.commandLine.appendSwitch('enable-oop-rasterization');
+app.commandLine.appendSwitch('enable-native-gpu-memory-buffers');
+app.commandLine.appendSwitch('enable-gpu-sandbox');
+app.commandLine.appendSwitch('enable-accelerated-video-decoding');
 
 const widevineCdmPath = path.join(__dirname, 'src', 'main', 'services', 'widevine', '_platform_specific', 'win_x64');
 app.commandLine.appendSwitch('widevine-cdm-path', widevineCdmPath);
