@@ -26,6 +26,7 @@ interface IDialogShowOptions {
 }
 
 interface IDialog {
+  WebContentsView: any;
   name: string;
   browserView: BrowserView;
   id: number;
@@ -64,7 +65,6 @@ export class DialogsService {
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,
-        //enableRemoteModule: true,
         webviewTag: true,
         //worldSafeExecuteJavaScript: false,
       },
