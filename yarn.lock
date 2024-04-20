@@ -1250,21 +1250,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.12.7":
+"@types/node@npm:*, @types/node@npm:^20.12.7, @types/node@npm:^20.9.0":
   version: 20.12.7
   resolution: "@types/node@npm:20.12.7"
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10c0/dce80d63a3b91892b321af823d624995c61e39c6a223cc0ac481a44d337640cc46931d33efb3beeed75f5c85c3bda1d97cef4c5cd4ec333caf5dee59cff6eca0
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^18.11.18":
-  version: 18.19.31
-  resolution: "@types/node@npm:18.19.31"
-  dependencies:
-    undici-types: "npm:~5.26.4"
-  checksum: 10c0/bfebae8389220c0188492c82eaf328f4ba15e6e9b4abee33d6bf36d3b13f188c2f53eb695d427feb882fff09834f467405e2ed9be6aeb6ad4705509822d2ea08
   languageName: node
   linkType: hard
 
@@ -1740,23 +1731,23 @@ __metadata:
   linkType: hard
 
 "@wexond/rpc-core@file:./base-rpc/packages/rpc-core::locator=wexond%40workspace%3A.":
-  version: 1.0.9
-  resolution: "@wexond/rpc-core@file:./base-rpc/packages/rpc-core#./base-rpc/packages/rpc-core::hash=6daeba&locator=wexond%40workspace%3A."
-  checksum: 10c0/f15d71d4f71a06a4085cecac04fcdd1aec90b7d3b21de3c3755c5b3f0a3086f36dc0d71c6f06412ac41879c9846ce2e6791126eaa7ff07d7cde07ddccad412cc
+  version: 2.0.1
+  resolution: "@wexond/rpc-core@file:./base-rpc/packages/rpc-core#./base-rpc/packages/rpc-core::hash=a4fd25&locator=wexond%40workspace%3A."
+  checksum: 10c0/8b0bf771f944b40a2017072568487a596bc9cf1504c30f8eae5715acdeea7205e8bb178e3b9e929819c6ec0560328ee768d581526e870b16c91828f42c0bdaba
   languageName: node
   linkType: hard
 
 "@wexond/rpc-electron@file:./base-rpc/packages/rpc-electron::locator=wexond%40workspace%3A.":
-  version: 1.0.9
-  resolution: "@wexond/rpc-electron@file:./base-rpc/packages/rpc-electron#./base-rpc/packages/rpc-electron::hash=04b1d8&locator=wexond%40workspace%3A."
-  checksum: 10c0/671df93b11bf727514d23c794c8a460b2df5bfb18ba49aaa973f21afac2feeb02911d507124334e5717280bc4381682f50a98bb96e42e47fa9feb88a5b34cdf2
+  version: 2.0.1
+  resolution: "@wexond/rpc-electron@file:./base-rpc/packages/rpc-electron#./base-rpc/packages/rpc-electron::hash=61da4b&locator=wexond%40workspace%3A."
+  checksum: 10c0/6240aedc1800d1b5dcf96dceb2c17760558c56786719c751921ace55abe82acc04af3805ec5ca9a1355d3a87d66cb350bbc41ee63114f2e9c1a2ed201ca6ecb9
   languageName: node
   linkType: hard
 
 "@wexond/rpc-node@file:./base-rpc/packages/rpc-node::locator=wexond%40workspace%3A.":
   version: 1.0.9
-  resolution: "@wexond/rpc-node@file:./base-rpc/packages/rpc-node#./base-rpc/packages/rpc-node::hash=5ec1c4&locator=wexond%40workspace%3A."
-  checksum: 10c0/da173b703031ab34012114358e7c0353bf20af72981eccd9e49ef1143a6e404b9caab095c851f063dc99b8b9d8ab9348e82916bfcce7eae3a5a4a325e35a45b1
+  resolution: "@wexond/rpc-node@file:./base-rpc/packages/rpc-node#./base-rpc/packages/rpc-node::hash=61d706&locator=wexond%40workspace%3A."
+  checksum: 10c0/98e058c984af3929c2d8e4bb12a99e24105506ce348adbbdb23da95da240d46fe306fb12cbd3e5b6a1b4248ca636cda2504b355f7c8dd774b3f34039ee0636ba
   languageName: node
   linkType: hard
 
@@ -3872,9 +3863,9 @@ __metadata:
   linkType: hard
 
 "electron-extensions@file:./embedded-packages/electron-extensions::locator=wexond%40workspace%3A.":
-  version: 7.0.2
-  resolution: "electron-extensions@file:./embedded-packages/electron-extensions#./embedded-packages/electron-extensions::hash=d15211&locator=wexond%40workspace%3A."
-  checksum: 10c0/90d6542636cb5963dd78040808ec80ebc9577457ce146c9d6e7ebec6ce54e0020fc29428e6eef056b94f0a22eb9458fad854932833f8d7805d49bebf8b810242
+  version: 7.0.3
+  resolution: "electron-extensions@file:./embedded-packages/electron-extensions#./embedded-packages/electron-extensions::hash=ee633c&locator=wexond%40workspace%3A."
+  checksum: 10c0/901ca412466793427e08af0f6517376125f9521b995f765532271d638c448442eb63f29d365741f08c1d7b4ede56eb031b9d09c49c6bc3868a34f6da015fdcbc
   languageName: node
   linkType: hard
 
@@ -3931,16 +3922,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:^28.3.0":
-  version: 28.3.0
-  resolution: "electron@npm:28.3.0"
+"electron@npm:^30.0.0":
+  version: 30.0.1
+  resolution: "electron@npm:30.0.1"
   dependencies:
     "@electron/get": "npm:^2.0.0"
-    "@types/node": "npm:^18.11.18"
+    "@types/node": "npm:^20.9.0"
     extract-zip: "npm:^2.0.1"
   bin:
     electron: cli.js
-  checksum: 10c0/e02c0ba6e9664d668da10a649dab29ac4ac24f0c82f4ad753c04e6e120936d24094acb28b430d0402ea4fafceb998471285c33371fd08689feab008ffe9cabab
+  checksum: 10c0/7ec38c2dca9cfbec7df6ae4b3abc2cfc0bf9d19456759c369a398b1e678262171dc292735b2bced82e9a32dfc6458ac4c487e1336e4f1dda24fc0b177e404a85
   languageName: node
   linkType: hard
 
@@ -9976,7 +9967,7 @@ __metadata:
     "@types/chrome": "npm:0.0.266"
     "@types/crypto-js": "npm:^4.2.2"
     "@types/nedb": "npm:1.8.16"
-    "@types/node": "npm:20.12.7"
+    "@types/node": "npm:^20.12.7"
     "@types/node-fetch": "npm:^2.6.11"
     "@types/react": "npm:18.2.75"
     "@types/react-dom": "npm:18.2.24"
@@ -9998,7 +9989,7 @@ __metadata:
     cross-env: "npm:7.0.3"
     cross-fetch: "npm:^4.0.0"
     dmg-builder: "npm:25.0.0-alpha.6"
-    electron: "npm:^28.3.0"
+    electron: "npm:^30.0.0"
     electron-builder: "npm:^24.13.3"
     electron-builder-squirrel-windows: "npm:^25.0.0-alpha.6"
     electron-extensions: "file:./embedded-packages/electron-extensions"
