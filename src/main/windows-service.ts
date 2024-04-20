@@ -18,7 +18,7 @@ export class WindowsService {
       });
 
       extensions.tabs.onCreateDetails = (tab, details) => {
-        const win = this.findByBrowserView(tab.id);
+        const win = this.findByWebContentsView(tab.id);
         details.windowId = win.id;
       };
 
@@ -38,7 +38,7 @@ export class WindowsService {
     }
 
     ipcMain.handle('get-tab-zoom', (e, tabId) => {
-      return this.findByBrowserView(tabId).viewManager.views.get(tabId)
+      return this.findByWebContentsView(tabId).viewManager.views.get(tabId)
         .webContents.zoomFactor;
     });
   }
@@ -58,7 +58,7 @@ export class WindowsService {
     return window;
   }
 
-  public findByBrowserView(webContentsId: number) {
+  public findByWebContentsView(webContentsId: number) {
     return this.list.find((x) => !!x.viewManager.views.get(webContentsId));
   }
 

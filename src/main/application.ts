@@ -58,7 +58,7 @@ export class Application {
     app.on('login', async (e, webContents, request, authInfo, callback) => {
       e.preventDefault();
 
-      const window = this.windows.findByBrowserView(webContents.id);
+      const window = this.windows.findByWebContentsView(webContents.id);
       const credentials = await requestAuth(
         window.win,
         request.url,
@@ -77,31 +77,31 @@ export class Application {
     this.onReady();
   }
 
-  private async onReady() {
-    await app.whenReady();
+private async onReady() {
+await app.whenReady();
 
-    new ExtensionServiceHandler();
+new ExtensionServiceHandler();
 
-    NetworkServiceHandler.get();
+NetworkServiceHandler.get();
 
-    checkFiles();
+checkFiles();
 
-    this.storage.run();
-    this.dialogs.run();
+this.storage.run();
+this.dialogs.run();
 
-    this.windows.open();
+this.windows.open();
 
-    this.sessions = new SessionsService();
+this.sessions = new SessionsService();
 
-    Menu.setApplicationMenu(getMainMenu());
-    runAutoUpdaterService();
+Menu.setApplicationMenu(getMainMenu());
+runAutoUpdaterService();
 
-    app.on('activate', () => {
-      if (this.windows.list.filter((x) => x !== null).length === 0) {
-        this.windows.open();
-      }
-    });
-  }
+app.on('activate', () => {
+if (this.windows.list.filter((x) => x !== null).length == 0) {
+this.windows.open();
+}
+});
+}
 
   private openTab(url: string) {
     if (!this.windows.current) {

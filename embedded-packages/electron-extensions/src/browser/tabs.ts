@@ -1,5 +1,5 @@
 import { Tab } from '../interfaces/tabs';
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, WebContents, WebContentsView } from 'electron';
 import { promises } from 'fs';
 import { resolve } from 'path';
 import { sessionFromIpcEvent } from '../utils/session';
@@ -8,11 +8,22 @@ import { EventEmitter } from 'events';
 import { Extensions } from '.';
 import { HandlerFactory } from './handler-factory';
 
-export const getParentWindowOfTab = (tab: Tab) => {
+interface Tab {
+  insertCSS: any;
+  reload: any;
+  reloadIgnoringCache: any;
+  favicon: any;
+  getType(): string;
+  webContents?: WebContents;
+  getWebContentsView?(): WebContentsView;
+}
+
+export const getParentWindowOfTab = (tab: Tab): BrowserWindow | undefined => {
   switch (tab.getType()) {
     case 'window':
-      return BrowserWindow.fromWebContents(tab);
-    case 'browserView':
+      return BrowserWindow.fromWebContents(tab.webContents!);
+    case 'webContentsView':
+      return tab.getWebContentsView()?.getBrowserWindow();
     case 'webview':
       return (tab as any).getOwnerBrowserWindow();
   }

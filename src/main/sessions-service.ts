@@ -52,7 +52,7 @@ export class SessionsService {
 
     this.view.setPermissionRequestHandler(
       async (webContents, permission, callback, details) => {
-        const window = Application.instance.windows.findByBrowserView(
+        const window = Application.instance.windows.findByWebContentsView(
           webContents.id,
         );
 
@@ -126,7 +126,7 @@ export class SessionsService {
     });
 
     const downloadsDialog = () =>
-      Application.instance.dialogs.getDynamic('downloads-dialog')?.browserView
+      Application.instance.dialogs.getDynamic('downloads-dialog')?.WebContentsView
         ?.webContents;
 
     const downloads: IDownloadItem[] = [];
@@ -152,7 +152,7 @@ export class SessionsService {
         (x) => x.id === id,
       );
 
-      const window = Application.instance.windows.findByBrowserView(
+      const window = Application.instance.windows.findByWebContentsView(
         electronDownloads[electronDownloadsIndex]?.webContents.id,
       );
 
@@ -191,7 +191,7 @@ export class SessionsService {
     this.view.on('will-download', (event, item, webContents) => {
       const fileName = item.getFilename();
       const id = makeId(32);
-      const window = Application.instance.windows.findByBrowserView(
+      const window = Application.instance.windows.findByWebContentsView(
         webContents.id,
       );
 
