@@ -1,4 +1,4 @@
-import { BrowserWindow, app, dialog } from 'electron';
+import { BrowserWindow, WebContentsView, app, dialog } from 'electron';
 import { writeFileSync, promises } from 'fs';
 import { resolve, join } from 'path';
 
@@ -14,6 +14,8 @@ export class AppWindow {
   public viewManager: ViewManager;
 
   public incognito: boolean;
+  contentView: any;
+  webContentsView: any;
 
   public constructor(incognito: boolean) {
     this.win = new BrowserWindow({
@@ -26,7 +28,6 @@ export class AppWindow {
       backgroundColor: '#ffffff',
       webPreferences: {
         plugins: true,
-        // TODO: enable sandbox, contextIsolation and disable nodeIntegration to improve security
         nodeIntegration: true,
         contextIsolation: false,
         javascript: true,
@@ -134,7 +135,8 @@ export class AppWindow {
       windowState.fullscreen = this.win.isFullScreen();
       writeFileSync(windowDataPath, JSON.stringify(windowState));
 
-      this.win.setBrowserView(null);
+      this.win.contentView = new WebContentsView();
+this.win.setContentView(this.win.contentView);
 
       this.viewManager.clear();
 

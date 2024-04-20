@@ -38,7 +38,7 @@ const onDropdownClick = (e: React.MouseEvent<HTMLDivElement>) => {
   ]);
 
   const { x, y } = require('@electron/remote')
-    .BrowserView.fromWebContents(
+    .WebContentsView.fromWebContents(
       require('@electron/remote').getCurrentWebContents(),
     )
     .getBounds();

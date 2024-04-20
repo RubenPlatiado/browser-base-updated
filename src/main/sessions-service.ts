@@ -13,7 +13,7 @@ import {
 import { parseCrx } from '~/utils/crx';
 import { pathExists } from '~/utils/files';
 import { extractZip } from '~/utils/zip';
-import { extensions } from 'electron-extensions';
+import { extensions } from 'electron-extensions-suit';
 import { requestPermission } from './dialogs/permissions';
 import { rimraf, rimrafSync, native, nativeSync } from 'rimraf'
 import { promisify } from 'util';

@@ -1,30 +1,20 @@
-import { BrowserView, app, ipcMain } from 'electron';
+import { app, ipcMain, BrowserView, WebContents } from 'electron';
 import { parse as parseUrl } from 'url';
-import { getViewMenu } from './menus/view';
-import { AppWindow } from './windows';
-import { IHistoryItem, IBookmark } from '~/interfaces';
-import {
-  ERROR_PROTOCOL,
-  NETWORK_ERROR_HOST,
-  WEBUI_BASE_URL,
-} from '~/constants/files';
-import { NEWTAB_URL } from '~/constants/tabs';
-import {
-  ZOOM_FACTOR_MIN,
-  ZOOM_FACTOR_MAX,
-  ZOOM_FACTOR_INCREMENT,
-} from '~/constants/web-contents';
+import { IBookmark } from '~/interfaces';
+import { ERROR_PROTOCOL, NETWORK_ERROR_HOST, NEWTAB_URL, WEBUI_BASE_URL } from '~/constants/files';
+import { ZOOM_FACTOR_MIN, ZOOM_FACTOR_MAX, ZOOM_FACTOR_INCREMENT } from '~/constants/web-contents';
 import { TabEvent } from '~/interfaces/tabs';
 import { Queue } from '~/utils/queue';
 import { Application } from './application';
 import { getUserAgentForURL } from './user-agent';
+import { getViewMenu } from './menus/view';
 
 interface IAuthInfo {
   url: string;
 }
 
 export class View {
-  public browserView: BrowserView;
+  public webContentsView: BrowserView;
 
   public isNewTab = false;
   public homeUrl: string;
@@ -56,7 +46,7 @@ export class View {
   private lastUrl = '';
 
   public constructor(window: AppWindow, url: string, incognito: boolean) {
-    this.browserView = new BrowserView({
+    this.webContentsView = new BrowserView({
       webPreferences: {
         preload: `${app.getAppPath()}/build/view-preload.bundle.js`,
         nodeIntegration: true,
@@ -72,17 +62,19 @@ export class View {
 
     this.incognito = incognito;
 
-    this.webContents.userAgent = getUserAgentForURL(
-      this.webContents.userAgent,
+    const webContents = this.webContentsView.webContents;
+
+    webContents.userAgent = getUserAgentForURL(
+      webContents.userAgent,
       '',
     );
 
-    (this.webContents as any).windowId = window.win.id;
+    (webContents as any).windowId = window.win.id;
 
     this.window = window;
     this.homeUrl = url;
 
-    this.webContents.session.webRequest.onBeforeSendHeaders(
+    webContents.session.webRequest.onBeforeSendHeaders(
       (details, callback) => {
         const { object: settings } = Application.instance.settings;
         if (settings.doNotTrack) details.requestHeaders['DNT'] = '1';
@@ -90,37 +82,37 @@ export class View {
       },
     );
 
-    ipcMain.handle(`get-error-url-${this.id}`, async (e) => {
+    ipcMain.handle(`get-error-url-${webContents.id}`, async (e) => {
       return this.errorURL;
     });
 
-    this.webContents.on('context-menu', (e, params) => {
-      const menu = getViewMenu(this.window, params, this.webContents);
+    webContents.on('context-menu', (e, params) => {
+      const menu = getViewMenu(this.window, params, webContents);
       menu.popup();
     });
 
-    this.webContents.addListener('found-in-page', (e, result) => {
+    webContents.addListener('found-in-page', (e, result) => {
       Application.instance.dialogs
         .getDynamic('find')
-        .browserView.webContents.send('found-in-page', result);
+        .webContents.send('found-in-page', result);
     });
 
-    this.webContents.addListener('page-title-updated', (e, title) => {
+    webContents.addListener('page-title-updated', (e, title) => {
       this.window.updateTitle();
       this.updateData();
 
       this.emitEvent('title-updated', title);
-      this.updateURL(this.webContents.getURL());
+      this.updateURL(webContents.getURL());
     });
 
-    this.webContents.addListener('did-navigate', async (e, url) => {
+    webContents.addListener('did-navigate', async (e, url) => {
       this.emitEvent('did-navigate', url);
 
       await this.addHistoryItem(url);
       this.updateURL(url);
     });
 
-    this.webContents.addListener(
+    webContents.addListener(
       'did-navigate-in-page',
       async (e, url, isMainFrame) => {
         if (isMainFrame) {
@@ -131,7 +123,7 @@ export class View {
         }
       },
     );
-
+    
     this.webContents.addListener('did-stop-loading', () => {
       this.updateNavigationState();
       this.emitEvent('loading', false);
@@ -167,7 +159,7 @@ export class View {
 
     this.webContents.addListener(
       'new-window',
-      (e, url, frameName, disposition) => {
+      (e: { preventDefault: () => void; }, url: any, frameName: any, disposition: string) => {
         if (disposition === 'new-window') {
           e.preventDefault();
           this.window.viewManager.create({ url, active: true }, true);
@@ -183,7 +175,7 @@ export class View {
 
     this.webContents.addListener(
       'did-fail-load',
-      (e, errorCode, errorDescription, validatedURL, isMainFrame) => {
+      (e: any, errorCode: number, errorDescription: any, validatedURL: string, isMainFrame: any) => {
         // ignore -3 (ABORTED) - An operation was aborted (due to user action).
         if (isMainFrame && errorCode !== -3) {
           this.errorURL = validatedURL;
@@ -266,16 +258,21 @@ export class View {
 
     this.webContents.loadURL(url);
 
-    this.browserView.setAutoResize({
-      width: true,
-      height: true,
-      horizontal: false,
-      vertical: false,
+    app.on('ready', () => {
+      const mainWindow = new BrowserWindow({ width: 800, height: 600 });
+      const view = new WebContentsView();
+      mainWindow.setContentView(view);
+    
+      view.webContents.loadURL('https://example.com');
+    
+      // Set the bounds once and do not update it again
+      const [width, height] = mainWindow.getContentSize();
+      view.setBounds({ x: 0, y: 0, width, height });
     });
   }
 
   public get webContents() {
-    return this.browserView.webContents;
+    return this.webContentsView.webContents;
   }
 
   public get url() {
@@ -295,7 +292,7 @@ export class View {
   }
 
   public updateNavigationState() {
-    if (this.browserView.webContents.isDestroyed()) return;
+    if (this.webContentsView.webContents.isDestroyed()) return;
 
     if (this.window.viewManager.selectedId === this.id) {
       this.window.send('update-navigation-state', {
@@ -306,14 +303,14 @@ export class View {
   }
 
   public destroy() {
-    (this.browserView.webContents as any).destroy();
-    this.browserView = null;
+    (this.webContentsView.webContents as any).destroy();
+    this.webContentsView = null;
   }
 
   public async updateCredentials() {
     if (
       !process.env.ENABLE_AUTOFILL ||
-      this.browserView.webContents.isDestroyed()
+      this.webContentsView.webContents.isDestroyed()
     )
       return;
 

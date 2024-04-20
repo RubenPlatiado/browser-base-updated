@@ -3,13 +3,12 @@ import { VIEW_Y_OFFSET } from '~/constants/design';
 import { View } from './view';
 import { AppWindow } from './windows';
 import { WEBUI_BASE_URL } from '~/constants/files';
-
 import {
   ZOOM_FACTOR_MIN,
   ZOOM_FACTOR_MAX,
   ZOOM_FACTOR_INCREMENT,
 } from '~/constants/web-contents';
-import { extensions } from 'electron-extensions';
+import { extensions } from 'electron-extensions-suit';
 import { EventEmitter } from 'events';
 import { Application } from './application';
 
@@ -78,7 +77,7 @@ export class ViewManager extends EventEmitter {
       view.webContents.setAudioMuted(false);
     });
 
-    ipcMain.on(`browserview-clear-${id}`, () => {
+    ipcMain.on(`web-contents-view-clear-${id}`, () => {
       this.clear();
     });
 
@@ -141,7 +140,7 @@ export class ViewManager extends EventEmitter {
   ) {
     const view = new View(this.window, details.url, this.incognito);
 
-    const { webContents } = view.browserView;
+    const { webContents } = view.webContentsView;
     const { id } = view;
 
     this.views.set(id, view);
@@ -161,7 +160,7 @@ export class ViewManager extends EventEmitter {
   }
 
   public clear() {
-    this.window.win.setBrowserView(null);
+    this.window.contentView.removeChildView(this.window.webContentsView);
     Object.values(this.views).forEach((x) => x.destroy());
   }
 
@@ -176,10 +175,10 @@ export class ViewManager extends EventEmitter {
     this.selectedId = id;
 
     if (selected) {
-      this.window.win.removeBrowserView(selected.browserView);
+      this.window.win.removeBrowserView(selected.webContentsView);
     }
 
-    this.window.win.addBrowserView(view.browserView);
+    this.window.win.addBrowserView(view.webContentsView);
 
     if (focus) {
       // Also fixes switching tabs with Ctrl + Tab
@@ -220,13 +219,13 @@ export class ViewManager extends EventEmitter {
     };
 
     if (newBounds !== view.bounds) {
-      view.browserView.setBounds(newBounds);
+      view.webContentsView.setBounds(newBounds);
       view.bounds = newBounds;
     }
   }
 
   private setBoundsListener() {
-    // resize the BrowserView's height when the toolbar height changes
+    // resize the WebContentsView's height when the toolbar height changes
     // ex: when the bookmarks bar appears
     this.window.webContents.executeJavaScript(`
         const {ipcRenderer} = require('electron');
@@ -249,8 +248,8 @@ export class ViewManager extends EventEmitter {
 
     this.views.delete(id);
 
-    if (view && !view.browserView.webContents.isDestroyed()) {
-      this.window.win.removeBrowserView(view.browserView);
+    if (view && !view.webContentsView.webContents.isDestroyed()) {
+      this.window.win.removeBrowserView(view.webContentsView);
       view.destroy();
       this.emit('removed', id);
     }
@@ -259,7 +258,7 @@ export class ViewManager extends EventEmitter {
   public emitZoomUpdate(showDialog = true) {
     Application.instance.dialogs
       .getDynamic('zoom')
-      ?.browserView?.webContents?.send(
+      ?.WebContentsView?.webContents?.send(
         'zoom-factor-updated',
         this.selected.webContents.zoomFactor,
       );

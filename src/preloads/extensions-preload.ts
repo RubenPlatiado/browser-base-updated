@@ -1,1 +1,1 @@
-require('electron-extensions/preload');
+require('electron-extensions-suit/preload');

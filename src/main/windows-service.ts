@@ -1,5 +1,5 @@
 import { AppWindow } from './windows/app';
-import { extensions } from 'electron-extensions';
+import { extensions } from 'electron-extensions-suit';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { SessionsService } from './sessions-service';
 

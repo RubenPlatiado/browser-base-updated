@@ -26,6 +26,7 @@ interface IDialogShowOptions {
 }
 
 interface IDialog {
+  webContents: any;
   WebContentsView: any;
   name: string;
   browserView: BrowserView;
