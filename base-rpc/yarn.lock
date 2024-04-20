@@ -1022,16 +1022,16 @@ __metadata:
   linkType: hard
 
 "@wexond/rpc-core@file:../rpc-core::locator=%40wexond%2Frpc-electron%40workspace%3Apackages%2Frpc-electron":
-  version: 2.0.1
-  resolution: "@wexond/rpc-core@file:../rpc-core#../rpc-core::hash=a4fd25&locator=%40wexond%2Frpc-electron%40workspace%3Apackages%2Frpc-electron"
-  checksum: 10c0/8b0bf771f944b40a2017072568487a596bc9cf1504c30f8eae5715acdeea7205e8bb178e3b9e929819c6ec0560328ee768d581526e870b16c91828f42c0bdaba
+  version: 2.0.2
+  resolution: "@wexond/rpc-core@file:../rpc-core#../rpc-core::hash=4413e9&locator=%40wexond%2Frpc-electron%40workspace%3Apackages%2Frpc-electron"
+  checksum: 10c0/3278013fbf04c608458fde2db4e5ff769de9270a84968dbf7c1a666407ec199fc821ef0da4128db5292be86ff147366aee04ceb5010c82260017c22936ce593d
   languageName: node
   linkType: hard
 
 "@wexond/rpc-core@file:../rpc-core::locator=%40wexond%2Frpc-node%40workspace%3Apackages%2Frpc-node":
-  version: 2.0.1
-  resolution: "@wexond/rpc-core@file:../rpc-core#../rpc-core::hash=a4fd25&locator=%40wexond%2Frpc-node%40workspace%3Apackages%2Frpc-node"
-  checksum: 10c0/8b0bf771f944b40a2017072568487a596bc9cf1504c30f8eae5715acdeea7205e8bb178e3b9e929819c6ec0560328ee768d581526e870b16c91828f42c0bdaba
+  version: 2.0.2
+  resolution: "@wexond/rpc-core@file:../rpc-core#../rpc-core::hash=4413e9&locator=%40wexond%2Frpc-node%40workspace%3Apackages%2Frpc-node"
+  checksum: 10c0/3278013fbf04c608458fde2db4e5ff769de9270a84968dbf7c1a666407ec199fc821ef0da4128db5292be86ff147366aee04ceb5010c82260017c22936ce593d
   languageName: node
   linkType: hard
 
@@ -1046,7 +1046,7 @@ __metadata:
   resolution: "@wexond/rpc-electron@workspace:packages/rpc-electron"
   dependencies:
     "@wexond/rpc-core": "file:../rpc-core"
-    electron: "npm:^30.0.0"
+    electron: "npm:^30.0.1"
   languageName: unknown
   linkType: soft
 
@@ -2297,7 +2297,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:^30.0.0":
+"electron@npm:^30.0.1":
   version: 30.0.1
   resolution: "electron@npm:30.0.1"
   dependencies:
