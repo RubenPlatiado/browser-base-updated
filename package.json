@@ -1,7 +1,7 @@
 {
   "name": "wexond",
   "license": "MIT",
-  "version": "7.2.3-nightly.2",
+  "version": "7.2.4-nightly.2",
   "sideEffects": false,
   "description": "Extensible, fast and innovative web browser with material UI.",
   "keywords": [
@@ -46,7 +46,7 @@
     "@types/chrome": "0.0.266",
     "@types/crypto-js": "^4.2.2",
     "@types/nedb": "1.8.16",
-    "@types/node": "20.12.7",
+    "@types/node": "^20.12.7",
     "@types/node-fetch": "^2.6.11",
     "@types/react": "18.2.75",
     "@types/react-dom": "18.2.24",
@@ -66,7 +66,7 @@
     "copy-webpack-plugin": "^12.0.2",
     "cross-env": "7.0.3",
     "dmg-builder": "25.0.0-alpha.6",
-    "electron": "^28.3.0",
+    "electron": "^30.0.0",
     "electron-builder": "^24.13.3",
     "electron-builder-squirrel-windows": "^25.0.0-alpha.6",
     "electron-extensions": "file:./embedded-packages/electron-extensions",
