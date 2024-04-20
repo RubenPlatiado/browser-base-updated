@@ -113,30 +113,18 @@ nvm alias default 21.7.2 # Sets the node version as the main defalt alias on lin
 ```
 
 
-make sure you have the 30.0.0 version of electron installed, you can do so by running this command in your terminal or command prompt
+make sure you have the 30.0.1 version of electron installed, you can do so by running this command in your terminal or command prompt
 
 
 ```bash
-npm install -g electron@30.0.0
+npm install -g electron@30.0.1
 ```
 
 
 + Next up is installing yarn package manegar version 4.1.1, which you can find from [`here`](https://yarnpkg.com/getting-started/install)
 
 
-#### Note: New Versions of Node.js No Longer Need Windows Build Tools Alongside it but the command is here just in case
-
-
-Make sure you have build tools installed. You can install them by running this command as **administrator**:
-
-
-+ if you need to install windows build tools the command is below
-
-
-```bash
-npm i -g windows-build-tools
-```
-
+#### Note: New Versions of Node.js No Longer Need Windows Build Tools Alongside it, because node already includes them out of the box
 
 ### Building and Running Commands for Linux, mac os, and windows
 
@@ -144,11 +132,6 @@ npm i -g windows-build-tools
 
 ```bash
 yarn install # Install needed depedencies for base-rpc.
-```
-#### open the embedded-packages-electron-extentions folder and run this command
-
-```bash
-yarn install # Install needed depedencies for electron-extentions
 ```
 
 #### Now go back to the main browser-base-updated folder and run the commands below
