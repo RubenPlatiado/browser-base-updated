@@ -3862,10 +3862,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-extensions-suit@npm:1.0.0-beta.4":
-  version: 1.0.0-beta.4
-  resolution: "electron-extensions-suit@npm:1.0.0-beta.4"
-  checksum: 10c0/edaf74affe93e057fd6cbcbb94d6e02276e0744cb77bfa616efded9cc84a14f7f841bce897e698681ae0fc6696f4d1fb6af9206a2b8593da2c9fdd4ba6fb9a26
+"electron-extensions-suit@npm:1.0.0-beta.5":
+  version: 1.0.0-beta.5
+  resolution: "electron-extensions-suit@npm:1.0.0-beta.5"
+  checksum: 10c0/d86a7ed468d420a2cc94cf9ffa581d3081c280298cee415efb3800124dc78ce4f9f53a7adb13a5f9a426bb79de8fba64de95bae09d65250aa9de252c0c0bbaac
   languageName: node
   linkType: hard
 
@@ -9992,7 +9992,7 @@ __metadata:
     electron: "npm:^30.0.1"
     electron-builder: "npm:^24.13.3"
     electron-builder-squirrel-windows: "npm:^25.0.0-alpha.6"
-    electron-extensions-suit: "npm:1.0.0-beta.4"
+    electron-extensions-suit: "npm:1.0.0-beta.5"
     electron-updater: "npm:6.1.8"
     eslint: "npm:^9.0.0"
     eslint-config-prettier: "npm:^9.1.0"
