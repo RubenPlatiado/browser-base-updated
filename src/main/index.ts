@@ -4,6 +4,8 @@ import { ElectronBlocker } from '@cliqz/adblocker-electron';
 import fetch from 'cross-fetch';
 const path = require('path');
 
+// main process code
+
 setIpcMain(ipcMain);
 
 require('@electron/remote/main').initialize();
