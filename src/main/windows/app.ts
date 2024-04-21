@@ -16,6 +16,8 @@ export class AppWindow {
   public incognito: boolean;
   contentView: any;
   webContentsView: any;
+  isDestroyed: any;
+  browserWindow: any;
 
   public constructor(incognito: boolean) {
     this.win = new BrowserWindow({
@@ -136,7 +138,7 @@ export class AppWindow {
       writeFileSync(windowDataPath, JSON.stringify(windowState));
 
       this.win.contentView = new WebContentsView();
-this.win.setContentView(this.win.contentView);
+      this.win.setContentView(this.win.contentView);
 
       this.viewManager.clear();
 

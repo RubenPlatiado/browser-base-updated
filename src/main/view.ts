@@ -1,6 +1,6 @@
-import { app, ipcMain, BrowserView, WebContents } from 'electron';
+import { app, ipcMain, WebContents, WebContentsView, BrowserWindow, screen } from 'electron';
 import { parse as parseUrl } from 'url';
-import { IBookmark } from '~/interfaces';
+import { IBookmark, IHistoryItem } from '~/interfaces';
 import { ERROR_PROTOCOL, NETWORK_ERROR_HOST, NEWTAB_URL, WEBUI_BASE_URL } from '~/constants/files';
 import { ZOOM_FACTOR_MIN, ZOOM_FACTOR_MAX, ZOOM_FACTOR_INCREMENT } from '~/constants/web-contents';
 import { TabEvent } from '~/interfaces/tabs';
@@ -8,13 +8,15 @@ import { Queue } from '~/utils/queue';
 import { Application } from './application';
 import { getUserAgentForURL } from './user-agent';
 import { getViewMenu } from './menus/view';
+import { AppWindow } from './windows';
 
 interface IAuthInfo {
   url: string;
 }
 
 export class View {
-  public webContentsView: BrowserView;
+  public isDestroyed = false;
+  public webContentsView: WebContentsView;
 
   public isNewTab = false;
   public homeUrl: string;
@@ -44,9 +46,10 @@ export class View {
   private historyQueue = new Queue();
 
   private lastUrl = '';
+  isDestroyed: boolean;
 
   public constructor(window: AppWindow, url: string, incognito: boolean) {
-    this.webContentsView = new BrowserView({
+    this.webContentsView = new WebContentsView({
       webPreferences: {
         preload: `${app.getAppPath()}/build/view-preload.bundle.js`,
         nodeIntegration: true,
@@ -54,7 +57,6 @@ export class View {
         sandbox: true,
         partition: incognito ? 'view_incognito' : 'persist:view',
         plugins: true,
-        nativeWindowOpen: true,
         webSecurity: true,
         javascript: true,
       },
@@ -157,21 +159,19 @@ export class View {
       },
     );
 
-    this.webContents.addListener(
-      'new-window',
-      (e: { preventDefault: () => void; }, url: any, frameName: any, disposition: string) => {
-        if (disposition === 'new-window') {
-          e.preventDefault();
-          this.window.viewManager.create({ url, active: true }, true);
-        } else if (disposition === 'foreground-tab') {
-          e.preventDefault();
-          this.window.viewManager.create({ url, active: true }, true);
-        } else if (disposition === 'background-tab') {
-          e.preventDefault();
-          this.window.viewManager.create({ url, active: false }, true);
-        }
-      },
-    );
+    this.webContents.setWindowOpenHandler(({ url, frameName, disposition }) => {
+      if (disposition === 'new-window') {
+        this.window.viewManager.create({ url, active: true }, true);
+        return { action: 'deny' };
+      } else if (disposition === 'foreground-tab') {
+        this.window.viewManager.create({ url, active: true }, true);
+        return { action: 'deny' };
+      } else if (disposition === 'background-tab') {
+        this.window.viewManager.create({ url, active: false }, true);
+        return { action: 'deny' };
+      }
+      return { action: 'allow' };
+    });
 
     this.webContents.addListener(
       'did-fail-load',
@@ -259,15 +259,19 @@ export class View {
     this.webContents.loadURL(url);
 
     app.on('ready', () => {
-      const mainWindow = new BrowserWindow({ width: 800, height: 600 });
+      const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+      const mainWindow = new BrowserWindow({ width, height });
       const view = new WebContentsView();
       mainWindow.setContentView(view);
     
       view.webContents.loadURL('https://example.com');
     
-      // Set the bounds once and do not update it again
-      const [width, height] = mainWindow.getContentSize();
-      view.setBounds({ x: 0, y: 0, width, height });
+      const setBounds = () => {
+        const [width, height] = mainWindow.getContentSize();
+        view.setBounds({ x: 0, y: 0, width, height });
+      };
+      setBounds();
+      mainWindow.on('resize', setBounds);
     });
   }
 
@@ -303,9 +307,14 @@ export class View {
   }
 
   public destroy() {
-    (this.webContentsView.webContents as any).destroy();
-    this.webContentsView = null;
-  }
+    if (this.isDestroyed) return;
+    this.isDestroyed = true;
+  
+    if (this.webContentsView && !this.webContentsView.webContents.isDestroyed()) {
+      (this.webContentsView.webContents as any).destroy();
+      this.webContentsView = null;
+    }
+  }   
 
   public async updateCredentials() {
     if (

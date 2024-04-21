@@ -20,6 +20,7 @@ export class ViewManager extends EventEmitter {
   public incognito: boolean;
 
   private window: AppWindow;
+  webContentsView: any;
 
   public get fullscreen() {
     return this._fullscreen;
@@ -160,9 +161,18 @@ export class ViewManager extends EventEmitter {
   }
 
   public clear() {
-    this.window.contentView.removeChildView(this.window.webContentsView);
-    Object.values(this.views).forEach((x) => x.destroy());
-  }
+    if (this.window && typeof this.window.isDestroyed === 'function' && !this.window.isDestroyed()) {
+      if (this.window.contentView && this.window.webContentsView) {
+        this.window.contentView.removeChildView(this.window.webContentsView);
+      }
+      Object.values(this.views).forEach((view) => {
+        if (view && view.webContents && !view.webContents.isDestroyed()) {
+          view.webContents.destroy();
+        }
+        console.log('Clearing all views in the ViewManager');
+      });
+    }
+  }  
 
   public select(id: number, focus = true) {
     const { selected } = this;
@@ -175,10 +185,10 @@ export class ViewManager extends EventEmitter {
     this.selectedId = id;
 
     if (selected) {
-      this.window.win.removeBrowserView(selected.webContentsView);
+      this.window.win.contentView.removeChildView(selected.webContentsView);
     }
-
-    this.window.win.addBrowserView(view.webContentsView);
+    
+    this.window.win.contentView.addChildView(view.webContentsView);
 
     if (focus) {
       // Also fixes switching tabs with Ctrl + Tab
@@ -243,18 +253,35 @@ export class ViewManager extends EventEmitter {
     });
   }
 
-  public destroy(id: number) {
-    const view = this.views.get(id);
-
-    this.views.delete(id);
-
-    if (view && !view.webContentsView.webContents.isDestroyed()) {
-      this.window.win.removeBrowserView(view.webContentsView);
-      view.destroy();
-      this.emit('removed', id);
+  public destroy(viewId: number) {
+    const view = this.views.get(viewId);
+    if (!view || view.isDestroyed) return;
+  
+    view.isDestroyed = true;
+  
+    if (this.selectedId === viewId) {
+      this.window.win.contentView.removeChildView(view.webContentsView);
+  
+      if (view.webContentsView && !view.webContentsView.webContents.isDestroyed()) {
+        view.webContentsView.webContents.close();
+      }
+  
+      this.selectedId = 0;
     }
-  }
-
+  
+    if (view.webContentsView && !view.webContentsView.webContents.isDestroyed()) {
+      (view.webContentsView.webContents as any).destroy();
+    }
+  
+    if (typeof view.destroy === 'function') {
+      view.destroy();
+    }
+    
+    this.views.delete(viewId);
+  
+    this.emit('removed', viewId);
+  }  
+  
   public emitZoomUpdate(showDialog = true) {
     Application.instance.dialogs
       .getDynamic('zoom')
