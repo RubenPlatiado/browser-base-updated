@@ -6,9 +6,6 @@ const path = require('path');
 
 setIpcMain(ipcMain);
 
-// by defalt we no longer need this on because of the additional flags i
-// app.disableHardwareAcceleration();
-
 require('@electron/remote/main').initialize();
 
 if (process.env.NODE_ENV === 'development') {
@@ -67,6 +64,8 @@ if (process.env.NODE_ENV === 'development') {
 
 ipcMain.setMaxListeners(0);
 
+require('events').EventEmitter.defaultMaxListeners = 15;
+
 const application = Application.instance;
 application.start();
 
@@ -114,19 +113,6 @@ app.on('web-contents-created', (e, webContents) => {
     if (backgroundPages.length > MAX_BACKGROUND_PAGES) {
       const removedPage = backgroundPages.shift();
     }
-  }
-
-  if (webContents.getType() === 'webview' || webContents.getType() === 'window') {
-    const numListeners = webContents.getMaxListeners() + 10;
-    webContents.setMaxListeners(numListeners);
-    webContents.on('dom-ready', () => {
-      webContents.insertCSS(`
-        html, body {
-          background-color: #fff !important;
-          color: #000 !important;
-        }
-      `);
-    });
   }
 });
 
