@@ -15,7 +15,8 @@ import { Application } from './application';
 export class ViewManager extends EventEmitter {
   public views = new Map<number, View>();
   public selectedId = 0;
-  public _fullscreen = true;
+  // currently in the process of fixing fullscreen as it dosent work at all
+  public _fullscreen = false;
 
   public incognito: boolean;
 
@@ -285,7 +286,7 @@ export class ViewManager extends EventEmitter {
   public emitZoomUpdate(showDialog = true) {
     Application.instance.dialogs
       .getDynamic('zoom')
-      ?.WebContentsView?.webContents?.send(
+      ?.webContentsView?.webContents?.send(
         'zoom-factor-updated',
         this.selected.webContents.zoomFactor,
       );

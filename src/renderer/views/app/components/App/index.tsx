@@ -56,6 +56,7 @@ const App = observer(() => {
       }}
     >
       <StyledApp
+        // currently in the process of fixing fullscreen as it dosent work at all
         onMouseOver={store.isFullscreen ? onAppEnter : undefined}
         onMouseLeave={store.isFullscreen ? onAppLeave : undefined}
         style={{

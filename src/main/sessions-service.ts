@@ -55,15 +55,16 @@ export class SessionsService {
         const window = Application.instance.windows.findByWebContentsView(
           webContents.id,
         );
-
+    
         if (webContents.id !== window.viewManager.selectedId) return;
-
+    
+        // currently in the process of fixing fullscreen as it dosent work at all
         if (permission === 'fullscreen') {
           callback(true);
         } else {
           try {
             const { hostname } = url.parse(details.requestingUrl);
-            const perm: any = await Application.instance.storage.findOne({
+            const perm = await Application.instance.storage.findOne({
               scope: 'permissions',
               query: {
                 url: hostname,
@@ -71,7 +72,7 @@ export class SessionsService {
                 mediaTypes: JSON.stringify(details.mediaTypes) || '',
               },
             });
-
+    
             if (!perm) {
               const response = await requestPermission(
                 window.win,
@@ -80,9 +81,9 @@ export class SessionsService {
                 details,
                 webContents.id,
               );
-
+    
               callback(response);
-
+    
               await Application.instance.storage.insert({
                 scope: 'permissions',
                 item: {
@@ -96,11 +97,12 @@ export class SessionsService {
               callback(perm.type === 1);
             }
           } catch (e) {
-            callback(false);
+            console.error('Error handling permission request:', e);
+            callback(false); // Handle the error by denying the permission
           }
         }
       },
-    );
+    );    
 
     const getDownloadItem = (
       item: Electron.DownloadItem,

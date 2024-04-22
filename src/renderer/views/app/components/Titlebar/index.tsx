@@ -26,8 +26,9 @@ const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
   }
 };
 
+// currently in the process of fixing fullscreen as it dosent work at all
 const onFullscreenExit = (e: React.MouseEvent<HTMLDivElement>) => {
-  require('@electron/remote/main').getCurrentWindow().setFullScreen(false);
+  require('@electron/remote/main').getCurrentWindow().setFullScreen(true);
 };
 
 export const Titlebar = observer(() => {

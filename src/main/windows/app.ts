@@ -53,30 +53,32 @@ export class AppWindow {
 
     let windowState: any = {};
 
+    // currently in the process of fixing fullscreen as it dosent work at all
     (async () => {
       try {
         // Read the last window state from file.
-        windowState = JSON.parse(
-          await promises.readFile(windowDataPath, 'utf8'),
-        );
+        windowState = JSON.parse(await promises.readFile(windowDataPath, 'utf8'));
       } catch (e) {
         await promises.writeFile(windowDataPath, JSON.stringify({}));
       }
-
-      // Merge bounds from the last window state to the current window options.
+    
       if (windowState) {
         this.win.setBounds({ ...windowState.bounds });
       }
-
+    
       if (windowState) {
         if (windowState.maximized) {
           this.win.maximize();
         }
         if (windowState.fullscreen) {
-          this.win.setFullScreen(true);
+          try {
+            this.win.setFullScreen(true);
+          } catch (e) {
+            console.error('Error setting fullscreen:', e);
+          }
         }
       }
-    })();
+    })();    
 
     require('@electron/remote/main').enable(this.win.webContents);
     this.win.show();

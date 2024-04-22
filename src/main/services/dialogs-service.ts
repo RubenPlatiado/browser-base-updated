@@ -27,13 +27,15 @@ interface IDialogShowOptions {
 
 interface IDialog {
   setBounds: any;
-  webContentsView: any;
   show: any;
   once: any;
   webContents: any;
-  WebContentsView: any;
   name: string;
+    // NOTEL: some parts of my code still need this refrence to BrowserView, because as of now, electron hasent fully
+  // moved all functionallity to the new WebContentsView yet. So we still need to use BrowserView in some places.
+  // NOTICE: electron has BrowserView Classafied as a Wrapper around the new WebContentsView so its still relavent for now.
   browserView: BrowserView;
+  webContentsView: Web
   id: number;
   tabIds: number[];
   _sendTabInfo: (tabId: number) => void;
@@ -54,6 +56,7 @@ export const roundifyRectangle = (rect: IRectangle): IRectangle => {
 export class DialogsService {
   public browserViews: BrowserView[] = [];
   public browserViewDetails = new Map<number, boolean>();
+  public webContentsViewDetails = new Map<number, boolean>();
   public dialogs: IDialog[] = [];
 
   public persistentDialogs: PersistentDialog[] = [];

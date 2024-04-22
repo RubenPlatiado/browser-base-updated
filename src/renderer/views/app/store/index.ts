@@ -52,6 +52,7 @@ export class Store {
 
   public isAlwaysOnTop = false;
 
+  // currently in the process of fixing fullscreen as it dosent work at all
   public isFullscreen = false;
 
   public isHTMLFullscreen = false;

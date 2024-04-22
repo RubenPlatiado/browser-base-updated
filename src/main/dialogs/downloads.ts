@@ -22,6 +22,8 @@ export const showDownloadsDialog = (
 
       height = Math.round(Math.min(winBounds.height, height + 28));
 
+      // switching this code right awway to WebContentsView is not possible
+      // as of now, as electron hasent properly implamented all the diologs and it breaks when you replace this code.
       dialog.browserView.webContents.send(
         `max-height`,
         Math.min(maxHeight, height),

@@ -1,4 +1,4 @@
-import { BrowserView, app, ipcMain, BrowserWindow } from 'electron';
+import { BrowserView, WebContentsView, app, ipcMain, BrowserWindow } from 'electron';
 import { join } from 'path';
 import { roundifyRectangle } from '../services/dialogs-service';
 
@@ -20,7 +20,11 @@ interface IRectangle {
 
 export class PersistentDialog {
   public browserWindow: BrowserWindow;
+  // NOTEL: some parts of my code still need this refrence to BrowserView, because as of now, electron hasent fully
+  // moved all functionallity to the new WebContentsView yet. So we still need to use BrowserView in some places.
+  // NOTICE: electron has BrowserView Classafied as a Wrapper around the new WebContentsView so its still relavent for now.
   public browserView: BrowserView;
+  public webContentsView: WebContentsView;
 
   public visible = false;
 
