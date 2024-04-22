@@ -7,3 +7,4 @@
 + fully fix the favicon loading system as some websites dont show there respective icons
 + fix something thats causing some websites to say it couldent loaad because you sent to many requests at once
 + finish migrating the Project from using the now depricated BrowserView to the new WebContentsView class
++ Fix Fullscreen Mode
