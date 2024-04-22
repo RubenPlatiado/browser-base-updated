@@ -26,6 +26,10 @@ interface IDialogShowOptions {
 }
 
 interface IDialog {
+  setBounds: any;
+  webContentsView: any;
+  show: any;
+  once: any;
   webContents: any;
   WebContentsView: any;
   name: string;

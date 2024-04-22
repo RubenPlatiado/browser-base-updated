@@ -15,7 +15,7 @@ import { Application } from './application';
 export class ViewManager extends EventEmitter {
   public views = new Map<number, View>();
   public selectedId = 0;
-  public _fullscreen = false;
+  public _fullscreen = true;
 
   public incognito: boolean;
 

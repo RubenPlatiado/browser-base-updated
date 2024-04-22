@@ -9,7 +9,10 @@ export const showExtensionDialog = (
   url: string,
   inspect = false,
 ) => {
-  if (!process.env.ENABLE_EXTENSIONS) return;
+  if (!process.env.ENABLE_EXTENSIONS) {
+    console.error('Extensions are not enabled.');
+    return;
+  }
 
   let height = 512;
   let width = 512;
@@ -17,18 +20,20 @@ export const showExtensionDialog = (
   const dialog = Application.instance.dialogs.show({
     name: 'extension-popup',
     browserWindow,
-    getBounds: () => {
-      return {
-        x: x - width + DIALOG_MARGIN,
-        y: y - DIALOG_MARGIN_TOP,
-        height: Math.min(1024, height),
-        width: Math.min(1024, width),
-      };
-    },
-    onWindowBoundsUpdate: () => dialog.hide(),
+    getBounds: () => ({
+      x: x - width + DIALOG_MARGIN,
+      y: y - DIALOG_MARGIN_TOP,
+      height: Math.min(1024, height),
+      width: Math.min(1024, width),
+    }),
+    // Comment out the onWindowBoundsUpdate to prevent the dialog from hiding
+    // onWindowBoundsUpdate: () => dialog.hide(),
   });
 
-  if (!dialog) return;
+  if (!dialog) {
+    console.error('Failed to create the dialog.');
+    return;
+  }
 
   dialog.on('bounds', (e, w, h) => {
     width = w;
@@ -36,9 +41,9 @@ export const showExtensionDialog = (
     dialog.rearrange();
   });
 
-  dialog.browserView.webContents.on(
+  dialog.webContentsView.on(
     'will-attach-webview',
-    (e, webPreferences, params) => {
+    (e: any, webPreferences: { sandbox: boolean; nodeIntegration: boolean; contextIsolation: boolean; }, params: any) => {
       webPreferences.sandbox = true;
       webPreferences.nodeIntegration = false;
       webPreferences.contextIsolation = true;
