@@ -1,10 +1,9 @@
-import { observable, computed, makeObservable, makeAutoObservable, autorun } from 'mobx';
+import { observable, computed, makeObservable, makeAutoObservable } from 'mobx';
 
 import { TabsStore } from './tabs';
 import { TabGroupsStore } from './tab-groups';
 import { AddTabStore } from './add-tab';
 import { ipcRenderer } from 'electron';
-import * as remote from '@electron/remote';
 import { ExtensionsStore } from './extensions';
 import { SettingsStore } from './settings';
 import { getCurrentWindow } from '../utils/windows';
@@ -16,7 +15,6 @@ import { IBrowserAction } from '../models';
 import { NEWTAB_URL } from '~/constants/tabs';
 import { IURLSegment } from '~/interfaces/urls';
 import { BookmarkBarStore } from './bookmark-bar';
-import { NONMODAL_DIALOGS } from '~/constants';
 
 export class Store {
   public settings = new SettingsStore(this);
@@ -39,7 +37,7 @@ export class Store {
 
   public windowId = getCurrentWindow().id;
 
-  public barHideTimer: number | NodeJS.Timeout = 0;
+  public barHideTimer = 0;
 
   public isIncognito = ipcRenderer.sendSync(`is-incognito-${this.windowId}`);
 
@@ -52,7 +50,6 @@ export class Store {
 
   public isAlwaysOnTop = false;
 
-  // currently in the process of fixing fullscreen as it dosent work at all
   public isFullscreen = false;
 
   public isHTMLFullscreen = false;
@@ -131,7 +128,7 @@ export class Store {
 
     const url = this.addressbarValue;
 
-    const whitelistedProtocols = ['https', 'http', 'ftp', 'wexond', 'file'];
+    const whitelistedProtocols = ['https', 'http', 'ftp', 'wexond'];
 
     for (let i = 0; i < url.length; i++) {
       const protocol = whitelistedProtocols.find(
@@ -231,7 +228,6 @@ export class Store {
         ...this.downloads[index],
         ...item,
       };
-      index.receivedBytes = item.receivedBytes;
     });
 
     ipcRenderer.on('is-bookmarked', (e, flag) => {
@@ -243,10 +239,6 @@ export class Store {
       (e, id: string, downloadNotification: boolean) => {
         const i = this.downloads.find((x) => x.id === id);
         i.completed = true;
-
-        if (this.downloads.filter((x) => !x.completed).length === 0) {
-          this.downloads = [];
-        }
 
         if (downloadNotification) {
           this.downloadNotification = true;
@@ -293,7 +285,7 @@ export class Store {
           );
 
           if (data.focus) {
-            remote.getCurrentWebContents().focus();
+            require('@electron/remote').getCurrentWebContents().focus();
             this.inputRef.focus();
           }
 

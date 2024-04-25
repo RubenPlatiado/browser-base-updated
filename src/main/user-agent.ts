@@ -17,9 +17,9 @@ const WEBKIT_VERSION = '605.1.15';
 
 // Components to replace
 const COMPONENTS_TO_REPLACE: [string | RegExp, string][] = [
-  [CHROME_COMPONENT_PATTERN, ' Chrome/124.0.6367.60'], // Replace with the actual Chromium version
-  [/ Safari\\?.([^\s]+)/g, ` Safari/${SAFARI_VERSION}`], // Add Safari version replacement
-  [/ AppleWebKit\\?.([^\s]+)/g, ` AppleWebKit/${WEBKIT_VERSION}`], // Add WebKit version replacement
+  [CHROME_COMPONENT_PATTERN, ' Chrome/124.0.6367.60'],
+  [/ Safari\\?.([^\s]+)/g, ` Safari/${SAFARI_VERSION}`],
+  [/ AppleWebKit\\?.([^\s]+)/g, ` AppleWebKit/${WEBKIT_VERSION}`],
 ];
 
 const urlMatchesPatterns = (url: string, patterns: RegExp[]) =>

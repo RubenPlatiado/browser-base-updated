@@ -46,7 +46,6 @@ export class View {
   private historyQueue = new Queue();
 
   private lastUrl = '';
-  isDestroyed: boolean;
 
   public constructor(window: AppWindow, url: string, incognito: boolean) {
     this.webContentsView = new WebContentsView({
@@ -263,8 +262,6 @@ export class View {
       const mainWindow = new BrowserWindow({ width, height });
       const view = new WebContentsView();
       mainWindow.setContentView(view);
-    
-      view.webContents.loadURL('https://example.com');
     
       const setBounds = () => {
         const [width, height] = mainWindow.getContentSize();

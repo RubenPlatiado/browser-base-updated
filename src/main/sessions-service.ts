@@ -15,10 +15,19 @@ import { pathExists } from '~/utils/files';
 import { extractZip } from '~/utils/zip';
 import { extensions } from 'electron-extensions-suit';
 import { requestPermission } from './dialogs/permissions';
-import { rimraf, rimrafSync, native, nativeSync } from 'rimraf'
-import { promisify } from 'util';
+import * as rimraf from 'rimraf';
 
-const rf = promisify(rimraf);
+const rf = (path) => {
+  return new Promise((resolve, reject) => {
+    rimraf(path, (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
 
 export class SessionsService {
   public view = session.fromPartition('persist:view');
@@ -55,16 +64,15 @@ export class SessionsService {
         const window = Application.instance.windows.findByWebContentsView(
           webContents.id,
         );
-    
+
         if (webContents.id !== window.viewManager.selectedId) return;
-    
-        // currently in the process of fixing fullscreen as it dosent work at all
+
         if (permission === 'fullscreen') {
           callback(true);
         } else {
           try {
             const { hostname } = url.parse(details.requestingUrl);
-            const perm = await Application.instance.storage.findOne({
+            const perm: any = await Application.instance.storage.findOne({
               scope: 'permissions',
               query: {
                 url: hostname,
@@ -72,7 +80,7 @@ export class SessionsService {
                 mediaTypes: JSON.stringify(details.mediaTypes) || '',
               },
             });
-    
+
             if (!perm) {
               const response = await requestPermission(
                 window.win,
@@ -81,9 +89,9 @@ export class SessionsService {
                 details,
                 webContents.id,
               );
-    
+
               callback(response);
-    
+
               await Application.instance.storage.insert({
                 scope: 'permissions',
                 item: {
@@ -97,12 +105,11 @@ export class SessionsService {
               callback(perm.type === 1);
             }
           } catch (e) {
-            console.error('Error handling permission request:', e);
-            callback(false); // Handle the error by denying the permission
+            callback(false);
           }
         }
       },
-    );    
+    );
 
     const getDownloadItem = (
       item: Electron.DownloadItem,
@@ -128,7 +135,7 @@ export class SessionsService {
     });
 
     const downloadsDialog = () =>
-      Application.instance.dialogs.getDynamic('downloads-dialog')?.WebContentsView
+      Application.instance.dialogs.getDynamic('downloads-dialog')?.webContentsView
         ?.webContents;
 
     const downloads: IDownloadItem[] = [];
