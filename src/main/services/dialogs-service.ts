@@ -35,7 +35,6 @@ interface IDialog {
   // moved all functionallity to the new WebContentsView yet. So we still need to use BrowserView in some places.
   // NOTICE: electron has BrowserView Classafied as a Wrapper around the new WebContentsView so its still relavent for now.
   browserView: BrowserView;
-  webContentsView: Web
   id: number;
   tabIds: number[];
   _sendTabInfo: (tabId: number) => void;
@@ -164,7 +163,7 @@ export class DialogsService {
         const { selectedId } = appWindow.viewManager;
 
         dialog.tabIds = dialog.tabIds.filter(
-          (x) => x !== (tabId || selectedId),
+          (x) => x !== (tabId || selectedId)
         );
 
         if (tabId && tabId !== selectedId) return;
@@ -186,15 +185,17 @@ export class DialogsService {
         this.browserViewDetails.set(browserView.webContents.id, false);
 
         if (this.browserViews.length > 1) {
-          // TODO: garbage collect unused BrowserViews?
-          // this.browserViewDetails.delete(browserView.id);
-          // browserView.destroy();
-          // this.browserViews.splice(1, 1);
+          // Garbage collect unused BrowserViews
+          const unusedBrowserView = this.browserViews[1]; // Assuming the second view is unused
+          this.browserViewDetails.delete(unusedBrowserView.id);
+          unusedBrowserView.destroy();
+          this.browserViews.splice(1, 1); // Remove the second view from the array
         } else {
-          browserView.webContents.loadURL('about:blank');
+          this.browserViews[0].webContents.loadURL('about:blank'); // Load 'about:blank' in the first view
         }
 
         if (tabAssociation) {
+          // Remove event listeners if there is a tab association
           appWindow.viewManager.off('activated', tabsEvents.activate);
           appWindow.viewManager.off('removed', tabsEvents.remove);
         }
@@ -225,6 +226,10 @@ export class DialogsService {
           ...roundifyRectangle(rect),
         });
       },
+      setBounds: undefined,
+      show: undefined,
+      once: undefined,
+      webContents: undefined
     };
 
     tabsEvents.activate = (id) => {
