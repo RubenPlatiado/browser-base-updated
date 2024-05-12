@@ -1,3 +1,5 @@
+/* Copyright (c) 2021-2024 Damon Smith */
+
 import store from '.';
 import { observable } from 'mobx';
 import { animateTab } from '../utils/tabs';
