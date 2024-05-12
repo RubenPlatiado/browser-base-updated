@@ -12,6 +12,9 @@ Wexond Base is a modern web browser, built on top of modern web technologies suc
 
 [NOTE: the base-rpc project is a fork of the wexond rpc project, my fork can be found by clicking this text if you wish to only use rpc](https://github.com/IroniumStudios/base-rpc)
 
+NOTE: This project is still going to be maintained but my main focus is to provide updates to my new repository which is built off of this one accept with a new face and more features
+if you wish to see the new repo, it can be found here: https://github.com/IroniumStudios/LunarWolf-Browser i think you should try it out, its more stable than this one
+
 </div>
 
 # Table of Contents:
