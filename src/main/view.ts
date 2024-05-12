@@ -115,7 +115,7 @@ export class View {
 
     webContents.addListener(
       'did-navigate-in-page',
-      async (e, url, isMainFrame) => {
+      async (e: any, url: string, isMainFrame: any) => {
         if (isMainFrame) {
           this.emitEvent('did-navigate', url);
 
@@ -149,7 +149,7 @@ export class View {
 
     this.webContents.on(
       'did-start-navigation',
-      (e, url, isInPlace, isMainFrame) => {
+      (e: any, url: string, _isInPlace: any, isMainFrame: any) => {
         if (!isMainFrame) return;
         const newUA = getUserAgentForURL(this.webContents.userAgent, url);
         if (this.webContents.userAgent !== newUA) {
@@ -190,7 +190,7 @@ export class View {
 
     this.webContents.addListener(
       'page-favicon-updated',
-      async (e, favicons) => {
+      async (e: any, favicons: string[]) => {
         this.favicon = favicons[0];
 
         await this.updateData();
