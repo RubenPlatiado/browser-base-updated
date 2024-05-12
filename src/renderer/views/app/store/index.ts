@@ -1,9 +1,12 @@
+/* Copyright (c) 2021-2024 Damon Smith */
+
 import { observable, computed, makeObservable, makeAutoObservable } from 'mobx';
 
 import { TabsStore } from './tabs';
 import { TabGroupsStore } from './tab-groups';
 import { AddTabStore } from './add-tab';
 import { ipcRenderer } from 'electron';
+import * as remote from '@electron/remote';
 import { ExtensionsStore } from './extensions';
 import { SettingsStore } from './settings';
 import { getCurrentWindow } from '../utils/windows';
@@ -15,6 +18,7 @@ import { IBrowserAction } from '../models';
 import { NEWTAB_URL } from '~/constants/tabs';
 import { IURLSegment } from '~/interfaces/urls';
 import { BookmarkBarStore } from './bookmark-bar';
+import { NETWORK_ERROR_HOST, WEBUI_BASE_URL } from '~/constants/files';
 
 export class Store {
   public settings = new SettingsStore(this);
@@ -65,6 +69,17 @@ export class Store {
 
   public downloadsButtonVisible = false;
 
+  public isUIpage = true;
+
+  public get _isDefaultBrowser() {
+    let res = true;
+    ipcRenderer.invoke('is-default-browser').then((_) => {
+      res = _;
+    });
+
+    return res;
+  }
+
   public downloadNotification = false;
 
   public downloads: IDownloadItem[] = [];
@@ -73,30 +88,33 @@ export class Store {
 
   public zoomFactor = 1;
 
+  @observable
+  public isDefaultBrowser = !this._isDefaultBrowser;
+
   public dialogsVisibility: { [key: string]: boolean } = {
     menu: false,
     'add-bookmark': false,
     zoom: false,
     'extension-popup': false,
     'downloads-dialog': false,
+    incognitoMenu: false,
+    menuExtra: false,
   };
 
-  // Computed
-
   public get downloadProgress() {
-    const downloading = this.downloads.filter(
-      (x) => !x.completed && !x.canceled && !x.paused,
-    );
+    const downloading = this.downloads.filter((x) => !x.completed);
 
     if (downloading.length === 0) return 0;
 
-    const { totalBytes } = downloading.reduce((prev, cur) => ({
+    const { totalBytes, canceledTotal } = downloading.reduce((prev, cur) => ({
       totalBytes: prev.totalBytes + cur.totalBytes,
-    }));
+      canceledTotal: prev.canceledTotal || cur.canceled
+    }), { totalBytes: 0, canceledTotal: false });
 
-    const { receivedBytes } = downloading.reduce((prev, cur) => ({
+    const { receivedBytes, canceledReceived } = downloading.reduce((prev, cur) => ({
       receivedBytes: prev.receivedBytes + cur.receivedBytes,
-    }));
+      canceledReceived: prev.canceledReceived && cur.canceled
+    }), { receivedBytes: 0, canceledReceived: false });
 
     return receivedBytes / totalBytes;
   }
@@ -193,10 +211,21 @@ export class Store {
       theme: computed,
       isCompact: computed,
       downloadProgress: computed,
+      isUIpage: observable,
     });
 
     ipcRenderer.on('update-navigation-state', (e, data) => {
       this.navigationState = data;
+    });
+
+    ipcRenderer.on('is-ui-page', (e, data) => {
+      this.isUIpage = data;
+    });
+
+    ipcRenderer.on('update-navigation-state-ui', (e, url) => {
+      var url = url.url;
+      this.isUIpage =
+        url.startsWith(WEBUI_BASE_URL) || url.startsWith(NETWORK_ERROR_HOST);
     });
 
     ipcRenderer.on('fullscreen', (e, fullscreen: boolean) => {
@@ -216,18 +245,9 @@ export class Store {
       this.downloadsButtonVisible = true;
     });
 
-    ipcRenderer.on('download-removed', (e, id: string) => {
-      const downloads = this.downloads.filter((x) => x.id !== id);
-      this.downloadsButtonVisible = downloads.length > 0;
-      this.downloads = downloads;
-    });
-
     ipcRenderer.on('download-progress', (e, item: IDownloadItem) => {
-      const index = this.downloads.findIndex((x) => x.id === item.id);
-      this.downloads[index] = {
-        ...this.downloads[index],
-        ...item,
-      };
+      const i = this.downloads.find((x) => x.id === item.id);
+      i.receivedBytes = item.receivedBytes;
     });
 
     ipcRenderer.on('is-bookmarked', (e, flag) => {
@@ -240,22 +260,15 @@ export class Store {
         const i = this.downloads.find((x) => x.id === id);
         i.completed = true;
 
+        if (this.downloads.filter((x) => !x.completed).length === 0) {
+          this.downloads = [];
+        }
+
         if (downloadNotification) {
           this.downloadNotification = true;
         }
       },
     );
-
-    ipcRenderer.on('download-paused', (e, id: string) => {
-      const i = this.downloads.find((x) => x.id === id);
-      i.paused = true;
-    });
-
-    ipcRenderer.on('download-canceled', (e, id: string) => {
-      const i = this.downloads.find((x) => x.id === id);
-      i.completed = false;
-      i.canceled = true;
-    });
 
     ipcRenderer.on('find', () => {
       const tab = this.tabs.selectedTab;
@@ -285,7 +298,7 @@ export class Store {
           );
 
           if (data.focus) {
-            require('@electron/remote').getCurrentWebContents().focus();
+            remote.getCurrentWebContents().focus();
             this.inputRef.focus();
           }
 
