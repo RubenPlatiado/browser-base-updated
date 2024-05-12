@@ -1,7 +1,9 @@
+/* Copyright (c) 2021-2024 Damon Smith */
+
 import { makeObservable, observable } from 'mobx';
 
 import { Store } from '.';
-//import { remote } from 'electron';
+import * as remote from '@electron/remote';
 import { prefixHttp, isURL } from '~/utils';
 import { Database } from '~/models/database';
 import { IStartupTab } from '~/interfaces/startup-tab';
@@ -49,8 +51,7 @@ export class StartupTabsStore {
       this.clearStartupTabs(false, false);
     }
 
-    //const args = remote.process.argv;
-    const args = [];
+    const args = remote.process.argv;
     let needsNewTabPage = false;
     // If we have tabs saved, load them
     if (tabsToLoad && tabsToLoad.length > 0) {
