@@ -111,7 +111,7 @@ export class PersistentDialog {
   }
 
   public show(browserWindow: BrowserWindow, focus = true, waitForLoad = true) {
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
       this.browserWindow = browserWindow;
 
       clearTimeout(this.timeout);
