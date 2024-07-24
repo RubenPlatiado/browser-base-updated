@@ -1,4 +1,4 @@
-import { BrowserView, app, ipcMain } from 'electron';
+import { WebContentsView, app, ipcMain } from 'electron';
 import { join } from 'path';
 import { SearchDialog } from '../dialogs/search';
 import { PreviewDialog } from '../dialogs/preview';
@@ -26,15 +26,12 @@ interface IDialogShowOptions {
 }
 
 interface IDialog {
+  webContentsView: any;
   setBounds: any;
   show: any;
   once: any;
   webContents: any;
   name: string;
-    // NOTEL: some parts of my code still need this refrence to BrowserView, because as of now, electron hasent fully
-  // moved all functionallity to the new WebContentsView yet. So we still need to use BrowserView in some places.
-  // NOTICE: electron has BrowserView Classafied as a Wrapper around the new WebContentsView so its still relavent for now.
-  browserView: BrowserView;
   id: number;
   tabIds: number[];
   _sendTabInfo: (tabId: number) => void;
@@ -53,22 +50,23 @@ export const roundifyRectangle = (rect: IRectangle): IRectangle => {
 };
 
 export class DialogsService {
-  public browserViews: BrowserView[] = [];
-  public browserViewDetails = new Map<number, boolean>();
+  public contentViews: WebContentsView[] = [];
+  public contentsDetails = new Map<number, boolean>();
   public webContentsViewDetails = new Map<number, boolean>();
   public dialogs: IDialog[] = [];
 
   public persistentDialogs: PersistentDialog[] = [];
+  contentsViews: any;
 
   public run() {
-    this.createBrowserView();
+    this.createContentView();
 
     this.persistentDialogs.push(new SearchDialog());
     this.persistentDialogs.push(new PreviewDialog());
   }
 
-  private createBrowserView() {
-    const view = new BrowserView({
+  private createContentView() {
+    const view = new WebContentsView({
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,
@@ -80,9 +78,9 @@ export class DialogsService {
     require('@electron/remote/main').enable(view.webContents);
     view.webContents.loadURL(`about:blank`);
 
-    this.browserViews.push(view);
+    this.contentViews.push(view);
 
-    this.browserViewDetails.set(view.webContents.id, false);
+    this.contentsDetails.set(view.webContents.id, false);
 
     return view;
   }
@@ -101,14 +99,14 @@ export class DialogsService {
 
     const foundDialog = this.getDynamic(name);
 
-    let browserView = foundDialog
-      ? foundDialog.browserView
-      : this.browserViews.find(
-          (x) => !this.browserViewDetails.get(x.webContents.id),
+    let webContentsView = foundDialog
+      ? foundDialog.webContentsView
+      : this.contentViews.find(
+          (x) => !this.contentsDetails.get(x.webContents.id),
         );
 
-    if (!browserView) {
-      browserView = this.createBrowserView();
+    if (!webContentsView) {
+      webContentsView = this.createContentView();
     }
 
     const appWindow =
@@ -121,19 +119,19 @@ export class DialogsService {
 
     browserWindow.webContents.send('dialog-visibility-change', name, true);
 
-    this.browserViewDetails.set(browserView.webContents.id, true);
+    this.contentsDetails.set(webContentsView.webContents.id, true);
 
     if (foundDialog) {
-      browserWindow.addBrowserView(browserView);
+      browserWindow.contentView.addChildView(webContentsView);
       foundDialog.rearrange();
       return null;
     }
 
-    browserWindow.addBrowserView(browserView);
-    browserView.setBounds({ x: 0, y: 0, width: 1, height: 1 });
+    browserWindow.contentView.addChildView(webContentsView);
+    webContentsView.setBounds({ x: 0, y: 0, width: 1, height: 1 });
 
     if (devtools) {
-      browserView.webContents.openDevTools({ mode: 'detach' });
+      webContentsView.webContents.openDevTools({ mode: 'detach' });
     }
 
     const tabsEvents: {
@@ -149,14 +147,14 @@ export class DialogsService {
     const channels: string[] = [];
 
     const dialog: IDialog = {
-      browserView,
-      id: browserView.webContents.id,
+      webContentsView,
+      id: webContentsView.webContents.id,
       name,
       tabIds: [tabAssociation?.tabId],
       _sendTabInfo: (tabId) => {
         if (tabAssociation.getTabInfo) {
           const data = tabAssociation.getTabInfo(tabId);
-          browserView.webContents.send('update-tab-info', tabId, data);
+          webContentsView.webContents.send('update-tab-info', tabId, data);
         }
       },
       hide: (tabId) => {
@@ -170,11 +168,11 @@ export class DialogsService {
 
         browserWindow.webContents.send('dialog-visibility-change', name, false);
 
-        browserWindow.removeBrowserView(browserView);
+        browserWindow.contentView.removeChildView(webContentsView);
 
         if (tabAssociation && dialog.tabIds.length > 0) return;
 
-        ipcMain.removeAllListeners(`hide-${browserView.webContents.id}`);
+        ipcMain.removeAllListeners(`hide-${webContentsView.webContents.id}`);
         channels.forEach((x) => {
           ipcMain.removeHandler(x);
           ipcMain.removeAllListeners(x);
@@ -182,16 +180,16 @@ export class DialogsService {
 
         this.dialogs = this.dialogs.filter((x) => x.id !== dialog.id);
 
-        this.browserViewDetails.set(browserView.webContents.id, false);
+        this.contentsDetails.set(webContentsView.webContents.id, false);
 
-        if (this.browserViews.length > 1) {
-          // Garbage collect unused BrowserViews
-          const unusedBrowserView = this.browserViews[1]; // Assuming the second view is unused
-          this.browserViewDetails.delete(unusedBrowserView.id);
-          unusedBrowserView.destroy();
-          this.browserViews.splice(1, 1); // Remove the second view from the array
+        if (this.contentsViews.length > 1) {
+          // Garbage collect unused contentsViews
+          const unusedWebContentsView = this.contentsViews[1]; // Assuming the second view is unused
+          this.contentsDetails.delete(unusedWebContentsView.id);
+          unusedWebContentsView.destroy();
+          // TODO: this.webContentsViewDetails.splice(1, 1); // Remove the second view from the array
         } else {
-          this.browserViews[0].webContents.loadURL('about:blank'); // Load 'about:blank' in the first view
+          this.contentViews[0].webContents.loadURL('about:blank'); // Load 'about:blank' in the first view
         }
 
         if (tabAssociation) {
@@ -206,18 +204,18 @@ export class DialogsService {
         if (onHide) onHide(dialog);
       },
       handle: (name, cb) => {
-        const channel = `${name}-${browserView.webContents.id}`;
+        const channel = `${name}-${webContentsView.webContents.id}`;
         ipcMain.handle(channel, (...args) => cb(...args));
         channels.push(channel);
       },
       on: (name, cb) => {
-        const channel = `${name}-${browserView.webContents.id}`;
+        const channel = `${name}-${webContentsView.webContents.id}`;
         ipcMain.on(channel, (...args) => cb(...args));
         channels.push(channel);
       },
       rearrange: (rect) => {
         rect = rect || {};
-        browserView.setBounds({
+        webContentsView.setBounds({
           x: 0,
           y: 0,
           width: 0,
@@ -238,10 +236,10 @@ export class DialogsService {
 
       if (visible) {
         dialog._sendTabInfo(id);
-        browserWindow.removeBrowserView(browserView);
-        browserWindow.addBrowserView(browserView);
+        browserWindow.contentView.removeChildView(webContentsView);
+        browserWindow.contentView.addChildView(webContentsView);
       } else {
-        browserWindow.removeBrowserView(browserView);
+        browserWindow.contentView.removeChildView(webContentsView);
       }
     };
 
@@ -276,20 +274,20 @@ export class DialogsService {
       browserWindow.on('move', windowEvents.move);
     }
 
-    browserView.webContents.once('dom-ready', () => {
+    webContentsView.webContents.once('dom-ready', () => {
       dialog.rearrange();
-      browserView.webContents.focus();
+      webContentsView.webContents.focus();
     });
 
     if (process.env.NODE_ENV === 'development') {
-      browserView.webContents.loadURL(`http://localhost:4444/${name}.html`);
+      webContentsView.webContents.loadURL(`http://localhost:4444/${name}.html`);
     } else {
-      browserView.webContents.loadURL(
+      webContentsView.webContents.loadURL(
         join('file://', app.getAppPath(), `build/${name}.html`),
       );
     }
 
-    ipcMain.on(`hide-${browserView.webContents.id}`, () => {
+    ipcMain.on(`hide-${webContentsView.webContents.id}`, () => {
       dialog.hide();
     });
 
@@ -309,19 +307,22 @@ export class DialogsService {
 
     return dialog;
   }
+  createContentsView(): any {
+    throw new Error('Method not implemented.');
+  }
 
-  public getBrowserViews = () => {
-    return this.browserViews.concat(
-      Array.from(this.persistentDialogs).map((x) => x.browserView),
+  public getContentViews = () => {
+    return this.contentViews.concat(
+      Array.from(this.persistentDialogs).map((x) => x.webContentsView),
     );
   };
 
   public destroy = () => {
-    this.getBrowserViews().forEach((x) => (x.webContents as any).destroy());
+    this.getContentViews().forEach((x) => (x.webContents as any).destroy());
   };
 
   public sendToAll = (channel: string, ...args: any[]) => {
-    this.getBrowserViews().forEach(
+    this.getContentViews().forEach(
       (x) =>
         !x.webContents.isDestroyed() && x.webContents.send(channel, ...args),
     );

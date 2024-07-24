@@ -1,4 +1,4 @@
-import { RendererToMainChannel } from '@wexond/rpc-electron';
+import { RendererToMainChannel } from '@ironiumstudios/rpc-electron';
 
 export interface ExtensionMainService {
   uninstall(id: string): void;

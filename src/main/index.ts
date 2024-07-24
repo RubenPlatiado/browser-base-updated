@@ -1,5 +1,5 @@
 import { ipcMain, app, webContents, crashReporter } from 'electron';
-import { setIpcMain } from '@wexond/rpc-electron';
+import { setIpcMain } from '@ironiumstudios/rpc-electron';
 import { ElectronBlocker } from '@cliqz/adblocker-electron';
 import fetch from 'cross-fetch';
 const path = require('path');

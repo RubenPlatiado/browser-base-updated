@@ -27,7 +27,7 @@ As Electron has deprecated the `remote` module, i have migrated to RPC solution 
 
 ## BrowserView Class
 
-electron has deprecated the BrowserView class and plans on fully replacing it with WebContentsView so we are currently in the proceess of migrating our BrowserView usage to WebContentsView.
+electron has deprecated the BrowserView class and plans on fully replacing it, we have fully intagrated the new class into our project
 
 ## Node integration
 

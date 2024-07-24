@@ -1,5 +1,5 @@
 import { configure } from 'mobx';
-import { setIpcRenderer } from '@wexond/rpc-electron';
+import { setIpcRenderer } from '@ironiumstudios/rpc-electron';
 import { ipcRenderer } from 'electron';
 
 export const configureUI = () => {

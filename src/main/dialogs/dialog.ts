@@ -1,4 +1,4 @@
-import { BrowserView, WebContentsView, app, ipcMain, BrowserWindow } from 'electron';
+import { WebContentsView, app, ipcMain, BrowserWindow } from 'electron';
 import { join } from 'path';
 import { roundifyRectangle } from '../services/dialogs-service';
 
@@ -20,10 +20,6 @@ interface IRectangle {
 
 export class PersistentDialog {
   public browserWindow: BrowserWindow;
-  // NOTEL: some parts of my code still need this refrence to BrowserView, because as of now, electron hasent fully
-  // moved all functionallity to the new WebContentsView yet. So we still need to use BrowserView in some places.
-  // NOTICE: electron has BrowserView Classafied as a Wrapper around the new WebContentsView so its still relavent for now.
-  public browserView: BrowserView;
   public webContentsView: WebContentsView;
 
   public visible = false;
@@ -42,6 +38,7 @@ export class PersistentDialog {
 
   private loaded = false;
   private showCallback: any = null;
+  browserView: any;
 
   public constructor({
     bounds,
@@ -50,7 +47,7 @@ export class PersistentDialog {
     hideTimeout,
     webPreferences,
   }: IOptions) {
-    this.browserView = new BrowserView({
+    this.webContentsView = new WebContentsView({
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,
@@ -63,7 +60,7 @@ export class PersistentDialog {
     this.hideTimeout = hideTimeout;
     this.name = name;
 
-    const { webContents } = this.browserView;
+    const { webContents } = this.webContentsView;
 
     require('@electron/remote/main').enable(webContents);
 
@@ -90,7 +87,7 @@ export class PersistentDialog {
   }
 
   public get webContents() {
-    return this.browserView.webContents;
+    return this.webContentsView.webContents;
   }
 
   public get id() {
@@ -106,7 +103,7 @@ export class PersistentDialog {
     });
 
     if (this.visible) {
-      this.browserView.setBounds(this.bounds as any);
+      this.webContentsView.setBounds(this.bounds as any);
     }
   }
 
@@ -130,7 +127,7 @@ export class PersistentDialog {
 
         this.visible = true;
 
-        browserWindow.addBrowserView(this.browserView);
+        browserWindow.contentView.addChildView(this.webContentsView);
         this.rearrange();
 
         if (focus) this.webContents.focus();
@@ -176,10 +173,10 @@ export class PersistentDialog {
 
     if (this.hideTimeout) {
       this.timeout = setTimeout(() => {
-        this.browserWindow.removeBrowserView(this.browserView);
+        this.browserWindow.contentView.removeChildView(this.webContentsView);
       }, this.hideTimeout);
     } else {
-      this.browserWindow.removeBrowserView(this.browserView);
+      this.browserWindow.contentView.removeChildView(this.webContentsView);
     }
 
     this.visible = false;
@@ -188,12 +185,13 @@ export class PersistentDialog {
   }
 
   public bringToTop() {
-    this.browserWindow.removeBrowserView(this.browserView);
-    this.browserWindow.addBrowserView(this.browserView);
+    this.browserWindow.contentView.removeChildView(this.webContentsView);
+    this.browserWindow.contentView.addChildView(this.webContentsView);
   }
 
+  // currently undergoing fixes
   public destroy() {
-    this.browserView.destroy();
-    this.browserView = null;
+  //  this.webContentsView.destroy();
+  //  this.webContentsView = null;
   }
 }
